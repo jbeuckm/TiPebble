@@ -33,12 +33,10 @@
 	// this method is called when the module is first loaded
 	// you *must* call the superclass
 	[super startup];
+    
+    _connectedWatch = nil;
 
     [[PBPebbleCentral defaultCentral] setDelegate:self];
-
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"foo",@"name",nil];
-    [self fireEvent:@"foo" withObject:event];
-    
     
 	NSLog(@"[INFO] %@ loaded",self);
 }
@@ -113,7 +111,7 @@
 
 #pragma Public APIs
 
--(id)setAppUUID:(id)uuid
+-(void)setAppUUID:(id)uuid
 {
     NSString *uuidString = [TiUtils stringValue:uuid];
 
@@ -122,6 +120,59 @@
     [myAppUUID getUUIDBytes:myAppUUIDbytes];
     
     [[PBPebbleCentral defaultCentral] setAppUUID:[NSData dataWithBytes:myAppUUIDbytes length:16]];
+}
+
+
+-(void)getVersionInfo:(id)args
+{
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args,NSDictionary);
+    
+    id success = [args objectForKey:@"success"];
+    id error = [args objectForKey:@"error"];
+    RELEASE_TO_NIL(successCallback);
+    RELEASE_TO_NIL(errorCallback);
+    successCallback = [success retain];
+    errorCallback = [error retain];
+    
+    NSLog(@"[INFO] getVersionInfo");
+    if (_connectedWatch == nil) {
+        
+        NSLog(@"[INFO] No Pebble watch connected.");
+        if (errorCallback != nil) {
+            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+        }
+        
+        return;
+    }
+
+    [_connectedWatch getVersionInfo:^(PBWatch *watch, PBVersionInfo *versionInfo ) {
+        
+        NSLog(@"Pebble firmware os version: %li", (long)versionInfo.runningFirmwareMetadata.version.os);
+        NSLog(@"Pebble firmware major version: %li", (long)versionInfo.runningFirmwareMetadata.version.major);
+        NSLog(@"Pebble firmware minor version: %li", (long)versionInfo.runningFirmwareMetadata.version.minor);
+        NSLog(@"Pebble firmware suffix version: %@", versionInfo.runningFirmwareMetadata.version.suffix);
+        
+        if (successCallback != nil) {
+            NSDictionary *versionInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         versionInfo.runningFirmwareMetadata.version.os, @"os",
+                                         versionInfo.runningFirmwareMetadata.version.major, @"major",
+                                         versionInfo.runningFirmwareMetadata.version.minor, @"minor",
+                                         versionInfo.runningFirmwareMetadata.version.suffix, @"suffix",
+                                         nil];
+
+            [self _fireEventToListener:@"success" withObject:versionInfoDict listener:successCallback thisObject:nil];
+        }
+        
+    }
+                              onTimeout:^(PBWatch *watch) {
+                                  NSLog(@"[INFO] Timed out trying to get version info from Pebble.");
+                                  if (errorCallback != nil) {
+                                      [self _fireEventToListener:@"error" withObject:@"Timed out trying to get version info from Pebble." listener:errorCallback thisObject:nil];
+                                  }
+                              }
+     ];
+    
 }
 
 

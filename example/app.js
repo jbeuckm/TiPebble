@@ -13,11 +13,11 @@ win.add(label);
 win.open();
 
 // TODO: write your module tests here
-var pebble = require('org.beuckman.pebble');
+var pebble = require('org.beuckman.tipebble');
 Ti.API.info("module is => " + pebble);
 
-var guid = Ti.Platform.createUUID();
-pebble.setAppUUID(guid);
+// this demo uuid is from the pebble documentation
+pebble.setAppUUID("226834ae-786e-4302-a52f-6e7efc9f990b");
 
 
 pebble.addEventListener("watchConnect", function(e) {
@@ -27,13 +27,19 @@ pebble.addEventListener("watchDisconnect", function(e) {
     Ti.API.info("watchDisconnect");
 });
 
-/*
-pebble.getVersionInfo(function(e) {
-    Ti.API.info("versionInfo");
-    Ti.API.info(e);
+
+pebble.getVersionInfo({
+    success: function(e) {
+        Ti.API.info("versionInfo");
+        Ti.API.info(e);
+    },
+    error: function(e) {
+        Ti.API.error(e);
+    }
 });
 
 
+/*
 pebble.launchApp(function(e) {
     Ti.API.info("launched app");
 });

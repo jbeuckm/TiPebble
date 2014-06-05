@@ -10,6 +10,10 @@
 @interface OrgBeuckmanTipebbleModule : TiModule <PBPebbleCentralDelegate>
 {
     PBWatch *_connectedWatch;
+
+    KrollCallback *successCallback;
+    KrollCallback *errorCallback;
+    
 }
 
 @end
