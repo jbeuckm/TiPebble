@@ -139,7 +139,8 @@
         
         NSLog(@"[INFO] No Pebble watch connected.");
         if (errorCallback != nil) {
-            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
+            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
         }
         
         return;
