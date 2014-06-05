@@ -135,7 +135,6 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    NSLog(@"[INFO] getVersionInfo");
     if (_connectedWatch == nil) {
         
         NSLog(@"[INFO] No Pebble watch connected.");
@@ -176,21 +175,74 @@
 }
 
 
--(id)example:(id)args
+-(void)launchApp:(id)args
 {
-	// example method
-	return @"hello world";
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args,NSDictionary);
+    
+    id success = [args objectForKey:@"success"];
+    id error = [args objectForKey:@"error"];
+    RELEASE_TO_NIL(successCallback);
+    RELEASE_TO_NIL(errorCallback);
+    successCallback = [success retain];
+    errorCallback = [error retain];
+    
+    if (_connectedWatch == nil) {
+        if (errorCallback != nil) {
+            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+        }
+        return;
+    }
+    
+    [_connectedWatch appMessageLaunch:^(PBWatch *watch, NSError *error) {
+        if (!error) {
+            if (successCallback != nil) {
+                [self _fireEventToListener:@"success" withObject:@"Successfully launched app." listener:successCallback thisObject:nil];
+            }
+        }
+        else {
+            NSLog(@"[ERROR] error launching Pebble app");
+            if (errorCallback != nil) {
+                [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
+            }
+        }
+    }];
 }
 
--(id)exampleProp
+
+-(void)killApp:(id)args
 {
-	// example property getter
-	return @"hello world";
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args,NSDictionary);
+    
+    id success = [args objectForKey:@"success"];
+    id error = [args objectForKey:@"error"];
+    RELEASE_TO_NIL(successCallback);
+    RELEASE_TO_NIL(errorCallback);
+    successCallback = [success retain];
+    errorCallback = [error retain];
+    
+    if (_connectedWatch == nil) {
+        if (errorCallback != nil) {
+            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+        }
+        return;
+    }
+    
+    [_connectedWatch appMessageKill:^(PBWatch *watch, NSError *error) {
+        if (!error) {
+            if (successCallback != nil) {
+                [self _fireEventToListener:@"success" withObject:@"Successfully killed app." listener:successCallback thisObject:nil];
+            }
+        }
+        else {
+            NSLog(@"[ERROR] error killing Pebble app");
+            if (errorCallback != nil) {
+                [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
+            }
+        }
+    }];
 }
 
--(void)setExampleProp:(id)value
-{
-	// example property setter
-}
 
 @end
