@@ -27,7 +27,7 @@ pebble.addEventListener("watchDisconnect", function(e) {
     Ti.API.info("watchDisconnect");
 });
 
-
+/*
 pebble.getVersionInfo(function(e) {
     Ti.API.info("versionInfo");
     Ti.API.info(e);
@@ -61,3 +61,4 @@ pebble.addEventListener("updateReceived", function(e) {
 });
 pebble.receiveUpdates(true);
 
+*/

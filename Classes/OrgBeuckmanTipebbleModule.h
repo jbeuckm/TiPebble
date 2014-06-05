@@ -5,9 +5,11 @@
  * and licensed under the Apache Public License (version 2)
  */
 #import "TiModule.h"
+#import <PebbleKit/PebbleKit.h>
 
-@interface OrgBeuckmanTipebbleModule : TiModule 
+@interface OrgBeuckmanTipebbleModule : TiModule <PBPebbleCentralDelegate>
 {
+    PBWatch *_connectedWatch;
 }
 
 @end

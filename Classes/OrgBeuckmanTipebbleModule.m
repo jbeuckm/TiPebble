@@ -9,6 +9,7 @@
 #import "TiHost.h"
 #import "TiUtils.h"
 
+
 @implementation OrgBeuckmanTipebbleModule
 
 #pragma mark Internal
@@ -32,9 +33,35 @@
 	// this method is called when the module is first loaded
 	// you *must* call the superclass
 	[super startup];
-	
+
+    [[PBPebbleCentral defaultCentral] setDelegate:self];
+
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"foo",@"name",nil];
+    [self fireEvent:@"foo" withObject:event];
+    
+    
 	NSLog(@"[INFO] %@ loaded",self);
 }
+
+- (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
+    NSLog(@"Pebble connected: %@", [watch name]);
+    _connectedWatch = watch;
+
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
+    [self fireEvent:@"watchConnected" withObject:event];
+}
+
+- (void)pebbleCentral:(PBPebbleCentral*)central watchDidDisconnect:(PBWatch*)watch {
+    NSLog(@"Pebble disconnected: %@", [watch name]);
+    
+    if (_connectedWatch == watch || [watch isEqual:_connectedWatch]) {
+        _connectedWatch = nil;
+    }
+
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
+    [self fireEvent:@"watchDisconnected" withObject:event];
+}
+
 
 -(void)shutdown:(id)sender
 {
@@ -85,6 +112,18 @@
 }
 
 #pragma Public APIs
+
+-(id)setAppUUID:(id)uuid
+{
+    NSString *uuidString = [TiUtils stringValue:uuid];
+
+    uuid_t myAppUUIDbytes;
+    NSUUID *myAppUUID = [[NSUUID alloc] initWithUUIDString:uuidString];
+    [myAppUUID getUUIDBytes:myAppUUIDbytes];
+    
+    [[PBPebbleCentral defaultCentral] setAppUUID:[NSData dataWithBytes:myAppUUIDbytes length:16]];
+}
+
 
 -(id)example:(id)args
 {
