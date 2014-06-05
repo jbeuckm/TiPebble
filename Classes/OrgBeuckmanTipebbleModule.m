@@ -120,6 +120,8 @@
 
 -(void)setAppUUID:(id)uuid
 {
+    NSLog(@"[INFO] Pebble setAppUUID()");
+    
     NSString *uuidString = [TiUtils stringValue:uuid];
 
     uuid_t myAppUUIDbytes;
@@ -132,6 +134,8 @@
 
 -(void)getVersionInfo:(id)args
 {
+    NSLog(@"[INFO] Pebble getVersionInfo()");
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
     
@@ -141,7 +145,7 @@
     RELEASE_TO_NIL(errorCallback);
     successCallback = [success retain];
     errorCallback = [error retain];
-    
+
     if (_connectedWatch == nil) {
         
         NSLog(@"[INFO] No Pebble watch connected.");
@@ -172,12 +176,13 @@
         }
         
     }
-                              onTimeout:^(PBWatch *watch) {
-                                  NSLog(@"[INFO] Timed out trying to get version info from Pebble.");
-                                  if (errorCallback != nil) {
-                                      [self _fireEventToListener:@"error" withObject:@"Timed out trying to get version info from Pebble." listener:errorCallback thisObject:nil];
-                                  }
-                              }
+            onTimeout:^(PBWatch *watch) {
+                NSLog(@"[INFO] Timed out trying to get version info from Pebble.");
+                if (errorCallback != nil) {
+                    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Timed out trying to get version info from Pebble.",@"message",nil];
+                    [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
+                }
+            }
      ];
     
 }
@@ -185,6 +190,8 @@
 
 -(void)launchApp:(id)args
 {
+    NSLog(@"[INFO] Pebble launchApp()");
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
     
@@ -206,7 +213,8 @@
     [_connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
-                [self _fireEventToListener:@"success" withObject:@"Successfully launched app." listener:successCallback thisObject:nil];
+                NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Successfully launched app.",@"message",nil];
+                [self _fireEventToListener:@"success" withObject:event listener:successCallback thisObject:nil];
             }
         }
         else {
@@ -222,6 +230,8 @@
 
 -(void)killApp:(id)args
 {
+    NSLog(@"[INFO] Pebble killApp()");
+
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
     
@@ -243,13 +253,15 @@
     [_connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
-                [self _fireEventToListener:@"success" withObject:@"Successfully killed app." listener:successCallback thisObject:nil];
+                NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Successfully killed app.",@"message",nil];
+                [self _fireEventToListener:@"success" withObject:event listener:successCallback thisObject:nil];
             }
         }
         else {
             NSLog(@"[ERROR] error killing Pebble app");
             if (errorCallback != nil) {
-                [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
+                NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:error.description,@"description",nil];
+                [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
             }
         }
     }];
