@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 0.0.2
+version: 0.0.4
 apiversion: 2
 description: Implement basic features of the Pebble iOS SDK.
 author: Joe Beuckman
@@ -15,4 +15,4 @@ name: TiPebble
 moduleid: org.beuckman.tipebble
 guid: 01b0607f-455b-4c1e-8f26-a07128d90089
 platform: iphone
-minsdk: 3.2.3.GA
+minsdk: 3.0.0.GA

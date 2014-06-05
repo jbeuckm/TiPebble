@@ -20,34 +20,51 @@ Ti.API.info("module is => " + pebble);
 pebble.setAppUUID("226834ae-786e-4302-a52f-6e7efc9f990b");
 
 
-pebble.addEventListener("watchConnect", function(e) {
-    Ti.API.info("watchConnect");
-});
-pebble.addEventListener("watchDisconnect", function(e) {
-    Ti.API.info("watchDisconnect");
-});
+function watchConnected(e) {
+    pebble.getVersionInfo({
+        success: function(e) {
+            alert(e);
+            launchApp();
+        },
+        error: function(e) {
+            alert("Error getting version info");
+            alert(e);
+        }
+    });
+}
+function watchDisonnected(e) {
+    alert("watchDisconnected");
+}
 
 
-pebble.getVersionInfo({
-    success: function(e) {
-        Ti.API.info("versionInfo");
-        Ti.API.info(e);
-    },
-    error: function(e) {
-        Ti.API.error(e);
-    }
-});
+pebble.addEventListener("watchConnected", watchConnected);
+pebble.addEventListener("watchDisconnected", watchDisonnected);
 
 
+function launchApp() {
+  pebble.launchApp({
+      success: function(e) {
+          Ti.API.info("launched app");
+          setTimeout(killApp, 1000);
+      },
+      error: function(e) {
+          alert("Error launching app");
+      }
+  });
+}
+
+function killApp() {
+  pebble.killApp({
+      success: function(e) {
+          Ti.API.info("killed app");
+          alert(e);
+      },
+      error: function(e) {
+          alert("Error killing app");
+      }
+  });
+}
 /*
-pebble.launchApp(function(e) {
-    Ti.API.info("launched app");
-});
-pebble.killApp(function(e) {
-    Ti.API.info("killed app");
-});
-
-
 pebble.appMessageSupported(function(e) {
     Ti.API.info("appMessageSupported");
 });
@@ -67,4 +84,5 @@ pebble.addEventListener("updateReceived", function(e) {
 });
 pebble.receiveUpdates(true);
 
+*/
 */

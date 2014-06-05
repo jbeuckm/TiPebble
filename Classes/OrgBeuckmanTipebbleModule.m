@@ -34,17 +34,24 @@
 	// you *must* call the superclass
 	[super startup];
     
-    _connectedWatch = nil;
-
     [[PBPebbleCentral defaultCentral] setDelegate:self];
     
-	NSLog(@"[INFO] %@ loaded",self);
+    NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
+	NSLog(@"[INFO] connected.count = %li", (long)connected.count);
+	if (connected.count > 0) {
+        _connectedWatch = [connected objectAtIndex:0];
+    }
+    else {
+        _connectedWatch = nil;
+    }
+    
+	NSLog(@"[INFO] %@ loaded", self);
 }
 
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
     NSLog(@"Pebble connected: %@", [watch name]);
     _connectedWatch = watch;
-
+    
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
     [self fireEvent:@"watchConnected" withObject:event];
 }
@@ -155,11 +162,11 @@
         
         if (successCallback != nil) {
             NSDictionary *versionInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                         versionInfo.runningFirmwareMetadata.version.os, @"os",
-                                         versionInfo.runningFirmwareMetadata.version.major, @"major",
-                                         versionInfo.runningFirmwareMetadata.version.minor, @"minor",
-                                         versionInfo.runningFirmwareMetadata.version.suffix, @"suffix",
-                                         nil];
+                    [NSString stringWithFormat:@"%li", (long)versionInfo.runningFirmwareMetadata.version.os], @"os",
+                    [NSString stringWithFormat:@"%li", (long)versionInfo.runningFirmwareMetadata.version.major], @"major",
+                    [NSString stringWithFormat:@"%li", (long)versionInfo.runningFirmwareMetadata.version.minor], @"minor",
+                    versionInfo.runningFirmwareMetadata.version.suffix, @"suffix",
+                    nil];
 
             [self _fireEventToListener:@"success" withObject:versionInfoDict listener:successCallback thisObject:nil];
         }
@@ -190,12 +197,13 @@
     
     if (_connectedWatch == nil) {
         if (errorCallback != nil) {
-            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
+            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
         }
         return;
     }
     
-    [_connectedWatch appMessageLaunch:^(PBWatch *watch, NSError *error) {
+    [_connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
                 [self _fireEventToListener:@"success" withObject:@"Successfully launched app." listener:successCallback thisObject:nil];
@@ -204,7 +212,8 @@
         else {
             NSLog(@"[ERROR] error launching Pebble app");
             if (errorCallback != nil) {
-                [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
+                NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:error.description,@"description",nil];
+                [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
             }
         }
     }];
@@ -225,12 +234,13 @@
     
     if (_connectedWatch == nil) {
         if (errorCallback != nil) {
-            [self _fireEventToListener:@"error" withObject:@"No Pebble watch connected." listener:errorCallback thisObject:nil];
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
+            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
         }
         return;
     }
     
-    [_connectedWatch appMessageKill:^(PBWatch *watch, NSError *error) {
+    [_connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
                 [self _fireEventToListener:@"success" withObject:@"Successfully killed app." listener:successCallback thisObject:nil];

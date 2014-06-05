@@ -26,6 +26,8 @@
 		24DD6CFA1134B3F500162E58 /* OrgBeuckmanTipebbleModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* OrgBeuckmanTipebbleModule.m */; };
 		24DE9E1111C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.h */; };
 		24DE9E1211C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m */; };
+		6E2DDEEA1940CAB300B737F3 /* PebbleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DDEE81940CAB300B737F3 /* PebbleKit.framework */; };
+		6E2DDEEB1940CAB300B737F3 /* PebbleVendor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DDEE91940CAB300B737F3 /* PebbleVendor.framework */; };
 		AA747D9F0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		D834576B19400737000D8E87 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834576519400737000D8E87 /* CFNetwork.framework */; };
@@ -35,8 +37,6 @@
 		D834576F19400737000D8E87 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834576919400737000D8E87 /* ExternalAccessory.framework */; };
 		D834577019400737000D8E87 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834576A19400737000D8E87 /* MessageUI.framework */; };
 		D834577E19400F51000D8E87 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D834577D19400F51000D8E87 /* libz.dylib */; };
-		D83457811940158C000D8E87 /* PebbleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834577F1940158C000D8E87 /* PebbleKit.framework */; };
-		D83457821940158C000D8E87 /* PebbleVendor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83457801940158C000D8E87 /* PebbleVendor.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +55,8 @@
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
 		24DE9E0F11C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrgBeuckmanTipebbleModuleAssets.h; path = Classes/OrgBeuckmanTipebbleModuleAssets.h; sourceTree = "<group>"; };
 		24DE9E1011C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrgBeuckmanTipebbleModuleAssets.m; path = Classes/OrgBeuckmanTipebbleModuleAssets.m; sourceTree = "<group>"; };
+		6E2DDEE81940CAB300B737F3 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleKit.framework; path = "../../../pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS/PebbleKit.framework"; sourceTree = "<group>"; };
+		6E2DDEE91940CAB300B737F3 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleVendor.framework; path = "../../../pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS/PebbleVendor.framework"; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrgBeuckmanTipebble_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libOrgBeuckmanTipebble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOrgBeuckmanTipebble.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,8 +67,6 @@
 		D834576919400737000D8E87 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		D834576A19400737000D8E87 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D834577D19400F51000D8E87 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		D834577F1940158C000D8E87 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleKit.framework; path = "../../../pebble-dev/PebbleSDK-2.2/PebbleKit-iOS/PebbleKit.framework"; sourceTree = "<group>"; };
-		D83457801940158C000D8E87 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleVendor.framework; path = "../../../pebble-dev/PebbleSDK-2.2/PebbleKit-iOS/PebbleVendor.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +80,10 @@
 				D834576D19400737000D8E87 /* CoreLocation.framework in Frameworks */,
 				D834576F19400737000D8E87 /* ExternalAccessory.framework in Frameworks */,
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
-				D83457821940158C000D8E87 /* PebbleVendor.framework in Frameworks */,
-				D83457811940158C000D8E87 /* PebbleKit.framework in Frameworks */,
+				6E2DDEEB1940CAB300B737F3 /* PebbleVendor.framework in Frameworks */,
 				D834576C19400737000D8E87 /* CoreBluetooth.framework in Frameworks */,
 				D834576E19400737000D8E87 /* CoreMotion.framework in Frameworks */,
+				6E2DDEEA1940CAB300B737F3 /* PebbleKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,8 +112,8 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D834577F1940158C000D8E87 /* PebbleKit.framework */,
-				D83457801940158C000D8E87 /* PebbleVendor.framework */,
+				6E2DDEE81940CAB300B737F3 /* PebbleKit.framework */,
+				6E2DDEE91940CAB300B737F3 /* PebbleVendor.framework */,
 				D834577D19400F51000D8E87 /* libz.dylib */,
 				D834576519400737000D8E87 /* CFNetwork.framework */,
 				D834576619400737000D8E87 /* CoreBluetooth.framework */,
@@ -257,6 +257,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"/Users/joebeuckman/pebble-dev/PebbleSDK-2.2/PebbleKit-iOS",
+					"/Users/innovator/pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -302,6 +303,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"/Users/joebeuckman/pebble-dev/PebbleSDK-2.2/PebbleKit-iOS",
+					"/Users/innovator/pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_MODEL_TUNING = G5;

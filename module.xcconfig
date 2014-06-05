@@ -28,4 +28,4 @@
 
 
 
-OTHER_LDFLAGS=$(inherited) -F${HOME}/pebble-dev/PebbleSDK-2.2/PebbleKit-iOS -framework CFNetwork -framework CoreMotion -framework ExternalAccessory -framework MessageUI -framework CoreBluetooth -framework PebbleKit -framework PebbleVendor
+OTHER_LDFLAGS=$(inherited) -F${HOME}/pebble-dev/PebbleSDK-current/PebbleKit-iOS -framework CFNetwork -framework CoreMotion -framework ExternalAccessory -framework MessageUI -framework CoreBluetooth -framework PebbleKit -framework PebbleVendor
