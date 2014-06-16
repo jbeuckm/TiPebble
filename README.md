@@ -10,6 +10,8 @@ Add the following to tiapp.xml inside your `<ios><plist><dict>` section:
 
 ```
               <key>UISupportedExternalAccessoryProtocols</key>
+              <array>
               <string>com.getpebble.public</string>
+              </array>
 ```
 

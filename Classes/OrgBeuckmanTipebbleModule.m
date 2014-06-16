@@ -35,20 +35,47 @@
 	[super startup];
     
     [[PBPebbleCentral defaultCentral] setDelegate:self];
-    pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
     
-    NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
-	NSLog(@"[INFO] TiPebble connected.count = %li", (long)connected.count);
-	if (connected.count > 0) {
-        _connectedWatch = [connected objectAtIndex:0];
-        pebbleDataQueue.watch = _connectedWatch;
-    }
-    else {
-        _connectedWatch = nil;
-    }
+//    [self setTargetWatch:[[PBPebbleCentral defaultCentral] lastConnectedWatch]];
+    _connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
+    
+    pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
+    pebbleDataQueue.watch = _connectedWatch;
     
 	NSLog(@"[INFO] %@ loaded", self);
 }
+
+
+
+/*
+- (void)setTargetWatch:(PBWatch*)watch {
+    _connectedWatch = watch;
+    
+    // NOTE:
+    // For demonstration purposes, we start communicating with the watch immediately upon connection,
+    // because we are calling -appMessagesGetIsSupported: here, which implicitely opens the communication session.
+    // Real world apps should communicate only if the user is actively using the app, because there
+    // is one communication session that is shared between all 3rd party iOS apps.
+    
+    // Test if the Pebble's firmware supports AppMessages / Weather:
+    [watch appMessagesGetIsSupported:^(PBWatch *watch, BOOL isAppMessagesSupported) {
+        if (isAppMessagesSupported) {
+            // Configure our communications channel to target the weather app:
+            // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definition on the watch's end:
+            uint8_t bytes[] = {0x28, 0xAF, 0x3D, 0xC7, 0xE4, 0x0D, 0x49, 0x0F, 0xBE, 0xF2, 0x29, 0x54, 0x8C, 0x8B, 0x06, 0x00};
+            NSData *uuid = [NSData dataWithBytes:bytes length:sizeof(bytes)];
+            [[PBPebbleCentral defaultCentral] setAppUUID:uuid];
+            
+            NSLog(@"Yay! %@ supports AppMessages :D", [watch name]);
+            
+        } else {
+            NSLog(@"Blegh... %@ does NOT support AppMessages :'(", [watch name]);
+
+        }
+    }];
+}
+*/
+
 
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
     NSLog(@"Pebble connected: %@", [watch name]);
@@ -122,15 +149,39 @@
 
 -(void)setAppUUID:(id)uuid
 {
-    NSLog(@"[INFO] TiPebble setAppUUID()");
+    ENSURE_UI_THREAD_1_ARG(uuid);
+    ENSURE_SINGLE_ARG(uuid, NSString);
     
+    NSLog(@"[INFO] TiPebble setAppUUID() with %@", uuid);
+
     NSString *uuidString = [TiUtils stringValue:uuid];
 
     uuid_t myAppUUIDbytes;
     NSUUID *myAppUUID = [[NSUUID alloc] initWithUUIDString:uuidString];
     [myAppUUID getUUIDBytes:myAppUUIDbytes];
-    
+    NSLog(@"%@", myAppUUID);
+
     [[PBPebbleCentral defaultCentral] setAppUUID:[NSData dataWithBytes:myAppUUIDbytes length:16]];
+
+
+    NSLog(@"[INFO] _connectedWatch = %@", _connectedWatch);
+/*
+    [_connectedWatch appMessagesGetIsSupported:^(PBWatch *watch, BOOL isAppMessagesSupported) {
+        if (isAppMessagesSupported) {
+
+            // Configure our communications channel to target the weather app:
+            // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definition on the watch's end:
+            uint8_t bytes[] = {0x28, 0xAF, 0x3D, 0xC7, 0xE4, 0x0D, 0x49, 0x0F, 0xBE, 0xF2, 0x29, 0x54, 0x8C, 0x8B, 0x06, 0x00};
+            NSData *uuid = [NSData dataWithBytes:bytes length:sizeof(bytes)];
+            [[PBPebbleCentral defaultCentral] setAppUUID:uuid];
+
+            NSLog(@"Yay! %@ supports AppMessages :D", [watch name]);
+            
+        } else {
+            NSLog(@"Blegh... %@ does NOT support AppMessages :'(", [watch name]);
+        }
+    }];
+*/
 }
 
 
@@ -199,10 +250,10 @@
 
 -(void)launchApp:(id)args
 {
-    NSLog(@"[INFO] TiPebble launchApp()");
-    
-//    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
+    
+    NSLog(@"[INFO] TiPebble launchApp()");
     
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -239,11 +290,11 @@
 
 -(void)killApp:(id)args
 {
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
+
     NSLog(@"[INFO] TiPebble killApp()");
 
-//    ENSURE_UI_THREAD_1_ARG(args);
-    ENSURE_SINGLE_ARG(args, NSDictionary);
-    
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
     RELEASE_TO_NIL(successCallback);
@@ -276,15 +327,13 @@
     }];
 }
 
-int sendImageCount = 0;
 
 -(void)sendImage:(id)args
-{    
+{
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
 
-    NSLog(@"[INFO] TiPebble sendImage() %d", sendImageCount);
-    sendImageCount++;
+    NSLog(@"[INFO] TiPebble sendImage()");
 
     TiBlob *blob = [args objectForKey:@"image"];
     UIImage *image = [blob image];

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>12CB6351-E227-469E-90DB-102D1EF876C0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TiPebble</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BD4D08AD-C19A-4453-8CFD-6B08D1D6E2B4</key>
+		<string>https://github.com/jbeuckm/TiPebble.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TiPebble.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BD4D08AD-C19A-4453-8CFD-6B08D1D6E2B4</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jbeuckm/TiPebble.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BD4D08AD-C19A-4453-8CFD-6B08D1D6E2B4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BD4D08AD-C19A-4453-8CFD-6B08D1D6E2B4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TiPebble</string>
+		</dict>
+	</array>
+</dict>
+</plist>
