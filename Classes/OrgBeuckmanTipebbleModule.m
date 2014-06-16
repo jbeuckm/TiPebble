@@ -39,7 +39,7 @@
     _connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
     [_connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
         NSLog(@"Received message: %@", update);
-        [self fireEvent:@"message" withObject:update];
+        [self fireEvent:@"update" withObject:update];
         return YES;
     }];
     
@@ -171,10 +171,7 @@
         return;
     }
     
-    NSDictionary *update = @{ @(0):[NSNumber numberWithUint8:42],
-                              @(1):@"a string" };
-    
-    [_connectedWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+    [_connectedWatch appMessagesPushUpdate:args onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
         if (!error) {
             NSLog(@"Successfully sent message.");
             [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
@@ -185,6 +182,7 @@
         }
     }];
 }
+
 
 -(void)getVersionInfo:(id)args
 {

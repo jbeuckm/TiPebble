@@ -12,7 +12,7 @@ var label = Ti.UI.createLabel();
 win.add(label);
 win.open();
 
-// TODO: write your module tests here
+
 var pebble = require('org.beuckman.tipebble');
 Ti.API.info("module is => " + pebble);
 
@@ -35,7 +35,6 @@ function watchConnected(e) {
 function watchDisonnected(e) {
     alert("watchDisconnected");
 }
-
 
 pebble.addEventListener("watchConnected", watchConnected);
 pebble.addEventListener("watchDisconnected", watchDisonnected);
@@ -84,5 +83,4 @@ pebble.addEventListener("updateReceived", function(e) {
 });
 pebble.receiveUpdates(true);
 
-*/
 */
