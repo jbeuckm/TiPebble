@@ -35,11 +35,13 @@
 	[super startup];
     
     [[PBPebbleCentral defaultCentral] setDelegate:self];
+    pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
     
     NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
 	NSLog(@"[INFO] TiPebble connected.count = %li", (long)connected.count);
 	if (connected.count > 0) {
         _connectedWatch = [connected objectAtIndex:0];
+        pebbleDataQueue.watch = _connectedWatch;
     }
     else {
         _connectedWatch = nil;
@@ -135,16 +137,16 @@
 -(id)connectedCount
 {
     NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
-    return NUMINT(connected.count);
+    return NUMINT((int)connected.count);
 }
 
 
 -(void)getVersionInfo:(id)args
 {
-    NSLog(@"[INFO] TiPebble getVersionInfo()");
-    
     ENSURE_UI_THREAD_1_ARG(args);
-    ENSURE_SINGLE_ARG(args,NSDictionary);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
+    
+    NSLog(@"[INFO] TiPebble getVersionInfo()");
     
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -199,8 +201,8 @@
 {
     NSLog(@"[INFO] TiPebble launchApp()");
     
-    ENSURE_UI_THREAD_1_ARG(args);
-    ENSURE_SINGLE_ARG(args,NSDictionary);
+//    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
     
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -239,8 +241,8 @@
 {
     NSLog(@"[INFO] TiPebble killApp()");
 
-    ENSURE_UI_THREAD_1_ARG(args);
-    ENSURE_SINGLE_ARG(args,NSDictionary);
+//    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
     
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -274,13 +276,15 @@
     }];
 }
 
+int sendImageCount = 0;
 
 -(void)sendImage:(id)args
-{
-    NSLog(@"[INFO] TiPebble sendImage()");
-    
+{    
     ENSURE_UI_THREAD_1_ARG(args);
-    ENSURE_SINGLE_ARG(args,NSDictionary);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
+
+    NSLog(@"[INFO] TiPebble sendImage() %d", sendImageCount);
+    sendImageCount++;
 
     TiBlob *blob = [args objectForKey:@"image"];
     UIImage *image = [blob image];
