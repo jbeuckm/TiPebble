@@ -36,8 +36,12 @@
     
     [[PBPebbleCentral defaultCentral] setDelegate:self];
     
-//    [self setTargetWatch:[[PBPebbleCentral defaultCentral] lastConnectedWatch]];
     _connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
+    [_connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
+        NSLog(@"Received message: %@", update);
+        [self fireEvent:@"message" withObject:update];
+        return YES;
+    }];
     
     pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
     pebbleDataQueue.watch = _connectedWatch;
@@ -46,35 +50,6 @@
 }
 
 
-
-/*
-- (void)setTargetWatch:(PBWatch*)watch {
-    _connectedWatch = watch;
-    
-    // NOTE:
-    // For demonstration purposes, we start communicating with the watch immediately upon connection,
-    // because we are calling -appMessagesGetIsSupported: here, which implicitely opens the communication session.
-    // Real world apps should communicate only if the user is actively using the app, because there
-    // is one communication session that is shared between all 3rd party iOS apps.
-    
-    // Test if the Pebble's firmware supports AppMessages / Weather:
-    [watch appMessagesGetIsSupported:^(PBWatch *watch, BOOL isAppMessagesSupported) {
-        if (isAppMessagesSupported) {
-            // Configure our communications channel to target the weather app:
-            // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definition on the watch's end:
-            uint8_t bytes[] = {0x28, 0xAF, 0x3D, 0xC7, 0xE4, 0x0D, 0x49, 0x0F, 0xBE, 0xF2, 0x29, 0x54, 0x8C, 0x8B, 0x06, 0x00};
-            NSData *uuid = [NSData dataWithBytes:bytes length:sizeof(bytes)];
-            [[PBPebbleCentral defaultCentral] setAppUUID:uuid];
-            
-            NSLog(@"Yay! %@ supports AppMessages :D", [watch name]);
-            
-        } else {
-            NSLog(@"Blegh... %@ does NOT support AppMessages :'(", [watch name]);
-
-        }
-    }];
-}
-*/
 
 
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
@@ -149,7 +124,7 @@
 
 -(void)setAppUUID:(id)uuid
 {
-    ENSURE_UI_THREAD_1_ARG(uuid);
+//    ENSURE_UI_THREAD_1_ARG(uuid);
     ENSURE_SINGLE_ARG(uuid, NSString);
     
     NSLog(@"[INFO] TiPebble setAppUUID() with %@", uuid);
@@ -162,26 +137,6 @@
     NSLog(@"%@", myAppUUID);
 
     [[PBPebbleCentral defaultCentral] setAppUUID:[NSData dataWithBytes:myAppUUIDbytes length:16]];
-
-
-    NSLog(@"[INFO] _connectedWatch = %@", _connectedWatch);
-/*
-    [_connectedWatch appMessagesGetIsSupported:^(PBWatch *watch, BOOL isAppMessagesSupported) {
-        if (isAppMessagesSupported) {
-
-            // Configure our communications channel to target the weather app:
-            // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definition on the watch's end:
-            uint8_t bytes[] = {0x28, 0xAF, 0x3D, 0xC7, 0xE4, 0x0D, 0x49, 0x0F, 0xBE, 0xF2, 0x29, 0x54, 0x8C, 0x8B, 0x06, 0x00};
-            NSData *uuid = [NSData dataWithBytes:bytes length:sizeof(bytes)];
-            [[PBPebbleCentral defaultCentral] setAppUUID:uuid];
-
-            NSLog(@"Yay! %@ supports AppMessages :D", [watch name]);
-            
-        } else {
-            NSLog(@"Blegh... %@ does NOT support AppMessages :'(", [watch name]);
-        }
-    }];
-*/
 }
 
 
@@ -191,6 +146,45 @@
     return NUMINT((int)connected.count);
 }
 
+-(void)sendMessage:(id)args
+{
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args, NSDictionary);
+    
+    NSLog(@"[INFO] TiPebble getVersionInfo()");
+    
+    id success = [args objectForKey:@"success"];
+    id error = [args objectForKey:@"error"];
+    RELEASE_TO_NIL(successCallback);
+    RELEASE_TO_NIL(errorCallback);
+    successCallback = [success retain];
+    errorCallback = [error retain];
+    
+    if (_connectedWatch == nil) {
+        
+        NSLog(@"[INFO] No Pebble watch connected.");
+        if (errorCallback != nil) {
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
+            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
+        }
+        
+        return;
+    }
+    
+    NSDictionary *update = @{ @(0):[NSNumber numberWithUint8:42],
+                              @(1):@"a string" };
+    
+    [_connectedWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+        if (!error) {
+            NSLog(@"Successfully sent message.");
+            [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
+        }
+        else {
+            NSLog(@"Error sending message: %@", error);
+            [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
+        }
+    }];
+}
 
 -(void)getVersionInfo:(id)args
 {
@@ -250,7 +244,7 @@
 
 -(void)launchApp:(id)args
 {
-    ENSURE_UI_THREAD_1_ARG(args);
+//    ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
     NSLog(@"[INFO] TiPebble launchApp()");
@@ -347,39 +341,7 @@
     [self sendImageToPebble:image withKey: @(2)];
     
     NSLog(@"[INFO] Back from sendImageToPebble");
-/*
-    return;
 
-    //    NSData *bitmap = [KBPebbleImage ditheredBitmapFromImage:img withHeight:128 width:128];
-    //    NSData *bitmap = [KBPebbleImage ditheredBitmapFromImage:img withHeight:4 width:4];
-    PBBitmap *bitmap = [PBBitmap pebbleBitmapWithUIImage : img];
-    
-    NSLog(@"bitmap.rowSizeBytes: %hu", bitmap.rowSizeBytes);
-    NSLog(@"bitmap.pixelData: %@", bitmap.pixelData);
-    
-    
-    // Get the temperature:
-    temperature++;
-    
-    // Get weather icon:
-    uint8_t weatherIconID = 0;
-    
-    // Send data to watch:
-    // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definitions on the watch's end:
-    NSNumber *iconKey = @(0); // This is our custom-defined key for the icon ID, which is of type uint8_t.
-    NSNumber *temperatureKey = @(1); // This is our custom-defined key for the temperature string.
-    NSNumber *bitmapKey = @(2); // This is our custom-defined key for the bitmap (NSData).
-    
-    NSDictionary *update = @{
-                             iconKey:        [NSNumber numberWithUint8:weatherIconID],
-                             temperatureKey: [NSString stringWithFormat:@"%d\u00B0C", temperature]
-                             };
-    
-    [_targetWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
-        message = error ? [error localizedDescription] : @"-Update sent!";
-        showAlert();
-    }];
-    */
 }
 
 #define MAX_OUTGOING_SIZE 95
