@@ -6,6 +6,8 @@
  */
 #import "TiModule.h"
 #import <PebbleKit/PebbleKit.h>
+#import "KBPebbleMessageQueue.h"
+
 
 @interface OrgBeuckmanTipebbleModule : TiModule <PBPebbleCentralDelegate>
 {
@@ -14,6 +16,7 @@
     KrollCallback *successCallback;
     KrollCallback *errorCallback;
     
+    KBPebbleMessageQueue *pebbleDataQueue;
 }
 
 @end

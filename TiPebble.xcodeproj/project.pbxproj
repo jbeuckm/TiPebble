@@ -28,6 +28,8 @@
 		24DE9E1211C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m */; };
 		6E2DDEEA1940CAB300B737F3 /* PebbleKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DDEE81940CAB300B737F3 /* PebbleKit.framework */; };
 		6E2DDEEB1940CAB300B737F3 /* PebbleVendor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DDEE91940CAB300B737F3 /* PebbleVendor.framework */; };
+		6E45EDFF194F4D7700F6C0CB /* KBPebbleMessageQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E45EDFD194F4D7700F6C0CB /* KBPebbleMessageQueue.h */; };
+		6E45EE00194F4D7700F6C0CB /* KBPebbleMessageQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E45EDFE194F4D7700F6C0CB /* KBPebbleMessageQueue.m */; };
 		AA747D9F0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		D834576B19400737000D8E87 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D834576519400737000D8E87 /* CFNetwork.framework */; };
@@ -57,6 +59,8 @@
 		24DE9E1011C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrgBeuckmanTipebbleModuleAssets.m; path = Classes/OrgBeuckmanTipebbleModuleAssets.m; sourceTree = "<group>"; };
 		6E2DDEE81940CAB300B737F3 /* PebbleKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleKit.framework; path = "../../../pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS/PebbleKit.framework"; sourceTree = "<group>"; };
 		6E2DDEE91940CAB300B737F3 /* PebbleVendor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PebbleVendor.framework; path = "../../../pebble-dev/PebbleSDK-2.1.1/PebbleKit-iOS/PebbleVendor.framework"; sourceTree = "<group>"; };
+		6E45EDFD194F4D7700F6C0CB /* KBPebbleMessageQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBPebbleMessageQueue.h; sourceTree = "<group>"; };
+		6E45EDFE194F4D7700F6C0CB /* KBPebbleMessageQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBPebbleMessageQueue.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrgBeuckmanTipebble_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libOrgBeuckmanTipebble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOrgBeuckmanTipebble.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +133,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6E45EDFD194F4D7700F6C0CB /* KBPebbleMessageQueue.h */,
+				6E45EDFE194F4D7700F6C0CB /* KBPebbleMessageQueue.m */,
 				24DE9E0F11C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.h */,
 				24DE9E1011C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m */,
 				24DD6CF71134B3F500162E58 /* OrgBeuckmanTipebbleModule.h */,
@@ -154,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA747D9F0F9514B9006C5449 /* OrgBeuckmanTipebble_Prefix.pch in Headers */,
+				6E45EDFF194F4D7700F6C0CB /* KBPebbleMessageQueue.h in Headers */,
 				24DD6CF91134B3F500162E58 /* OrgBeuckmanTipebbleModule.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.h in Headers */,
 			);
@@ -229,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24DD6CFA1134B3F500162E58 /* OrgBeuckmanTipebbleModule.m in Sources */,
+				6E45EE00194F4D7700F6C0CB /* KBPebbleMessageQueue.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* OrgBeuckmanTipebbleModuleAssets.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

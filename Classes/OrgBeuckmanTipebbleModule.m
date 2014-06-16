@@ -37,7 +37,7 @@
     [[PBPebbleCentral defaultCentral] setDelegate:self];
     
     NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
-	NSLog(@"[INFO] connected.count = %li", (long)connected.count);
+	NSLog(@"[INFO] TiPebble connected.count = %li", (long)connected.count);
 	if (connected.count > 0) {
         _connectedWatch = [connected objectAtIndex:0];
     }
@@ -120,7 +120,7 @@
 
 -(void)setAppUUID:(id)uuid
 {
-    NSLog(@"[INFO] Pebble setAppUUID()");
+    NSLog(@"[INFO] TiPebble setAppUUID()");
     
     NSString *uuidString = [TiUtils stringValue:uuid];
 
@@ -132,9 +132,16 @@
 }
 
 
+-(id)connectedCount
+{
+    NSArray *connected = [[PBPebbleCentral defaultCentral] connectedWatches];
+    return NUMINT(connected.count);
+}
+
+
 -(void)getVersionInfo:(id)args
 {
-    NSLog(@"[INFO] Pebble getVersionInfo()");
+    NSLog(@"[INFO] TiPebble getVersionInfo()");
     
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
@@ -190,7 +197,7 @@
 
 -(void)launchApp:(id)args
 {
-    NSLog(@"[INFO] Pebble launchApp()");
+    NSLog(@"[INFO] TiPebble launchApp()");
     
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
@@ -230,7 +237,7 @@
 
 -(void)killApp:(id)args
 {
-    NSLog(@"[INFO] Pebble killApp()");
+    NSLog(@"[INFO] TiPebble killApp()");
 
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args,NSDictionary);
@@ -266,6 +273,81 @@
         }
     }];
 }
+
+
+-(void)sendImage:(id)args
+{
+    NSLog(@"[INFO] TiPebble sendImage()");
+    
+    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_SINGLE_ARG(args,NSDictionary);
+
+    TiBlob *blob = [args objectForKey:@"image"];
+    UIImage *image = [blob image];
+
+    
+    if (_connectedWatch == nil || [_connectedWatch isConnected] == NO) {
+        [[[UIAlertView alloc] initWithTitle:nil message:@"No connected watch!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
+    
+    [self sendImageToPebble:image withKey: @(2)];
+    
+    NSLog(@"[INFO] Back from sendImageToPebble");
+/*
+    return;
+
+    //    NSData *bitmap = [KBPebbleImage ditheredBitmapFromImage:img withHeight:128 width:128];
+    //    NSData *bitmap = [KBPebbleImage ditheredBitmapFromImage:img withHeight:4 width:4];
+    PBBitmap *bitmap = [PBBitmap pebbleBitmapWithUIImage : img];
+    
+    NSLog(@"bitmap.rowSizeBytes: %hu", bitmap.rowSizeBytes);
+    NSLog(@"bitmap.pixelData: %@", bitmap.pixelData);
+    
+    
+    // Get the temperature:
+    temperature++;
+    
+    // Get weather icon:
+    uint8_t weatherIconID = 0;
+    
+    // Send data to watch:
+    // See demos/feature_app_messages/weather.c in the native watch app SDK for the same definitions on the watch's end:
+    NSNumber *iconKey = @(0); // This is our custom-defined key for the icon ID, which is of type uint8_t.
+    NSNumber *temperatureKey = @(1); // This is our custom-defined key for the temperature string.
+    NSNumber *bitmapKey = @(2); // This is our custom-defined key for the bitmap (NSData).
+    
+    NSDictionary *update = @{
+                             iconKey:        [NSNumber numberWithUint8:weatherIconID],
+                             temperatureKey: [NSString stringWithFormat:@"%d\u00B0C", temperature]
+                             };
+    
+    [_targetWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+        message = error ? [error localizedDescription] : @"-Update sent!";
+        showAlert();
+    }];
+    */
+}
+
+#define MAX_OUTGOING_SIZE 95
+
+-(void)sendImageToPebble:(UIImage*)image withKey:(id)key {
+
+    PBBitmap* pbBitmap = [PBBitmap pebbleBitmapWithUIImage:image];
+    size_t length = [pbBitmap.pixelData length];
+    uint8_t j = 0;
+    NSLog(@"length of the pixelData: %zu", length);
+    for(size_t i = 0; i < length; i += MAX_OUTGOING_SIZE-1) {
+        NSMutableData *outgoing = [[NSMutableData alloc] initWithCapacity:MAX_OUTGOING_SIZE];
+        [outgoing appendBytes:&j length:1];
+        [outgoing appendData:[pbBitmap.pixelData subdataWithRange:NSMakeRange(i, MIN(MAX_OUTGOING_SIZE-1, length - i))]];
+        //enqueue ex: https://github.com/Katharine/peapod/
+        [pebbleDataQueue enqueue:@{key: outgoing}];
+        ++j;
+        NSLog(@" - - - enqueued %lu bytes", MIN(MAX_OUTGOING_SIZE-1, length - i));
+    }
+}
+
 
 
 @end
