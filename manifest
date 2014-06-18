@@ -2,9 +2,9 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 0.0.5
+version: 0.1.0
 apiversion: 2
-description: Implement basic features of the Pebble iOS SDK.
+description: Implements basic features of the Pebble iOS SDK.
 author: Joe Beuckman
 license: Don't read software licenses. Don't write software licenses.
 copyright: no

@@ -5,10 +5,6 @@
 		configuration in <iphone>, <android>, and <mobileweb> sections
 	-->
 	<iphone>
-              <key>UISupportedExternalAccessoryProtocols</key>
-              <array>
-		<string>com.getpebble.public</string>
-              </array>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 	</android>
