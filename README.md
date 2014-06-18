@@ -14,6 +14,14 @@ Download the latest distribution ZIP-file and consult the [Titanium Documentatio
 
 ### Usage ###
 
+Add this to your `<ios><plist><dict>` section in `tiapp.xml`:
+```
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.getpebble.public</string>
+	</array>
+```
+
 You'll need your Pebble app's UUID here:
 
 ```javascript
