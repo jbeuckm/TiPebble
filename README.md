@@ -1,6 +1,6 @@
 # TiPebble #
 
-[![Build Status](https://travis-ci.org/jbeuckm/AutoGraph.png)](https://travis-ci.org/jbeuckm/AutoGraph)
+[![Build Status](https://travis-ci.org/jbeuckm/TiPebble.png)](https://travis-ci.org/jbeuckm/TiPebble)
 ![caution](http://img.shields.io/badge/new%20project-caution-orange.svg)
 
 Implements basic features of the Pebble iOS SDK.
