@@ -1,0 +1,36 @@
+{
+  "uuid": "226834ae-786e-4302-a52f-6e7efc9f990b",
+  "shortName": “TiPebble Demo”,
+  "longName": “TiPebble D”emo,
+  "companyName": "Pebble Technology",
+  "versionCode": 1,
+  "versionLabel": “0.1.0”,
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": { "iconKey": 0, "temperatureKey": 1, "bitmapKey":2},
+  "resources": {
+    "media": [
+      {
+        "type": "png",
+        "name": "IMAGE_SUN",
+        "file": "img/sun.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_RAIN",
+        "file": "img/rain.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_CLOUD",
+        "file": "img/cloud.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_SNOW",
+        "file": "img/snow.png"
+      }
+    ]
+  }
+}
