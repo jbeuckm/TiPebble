@@ -33,7 +33,7 @@ void get_image (Tuple *bitmap_tuple) {
         if (bitmap_tuple->type == TUPLE_BYTE_ARRAY){
             size_t offset = bitmap_tuple->value->data[0] * BUFFEROFFSET;
             memcpy(bitmap_data + offset, bitmap_tuple->value->data + 1, bitmap_tuple->length - 1);
-//            APP_LOG(APP_LOG_LEVEL_DEBUG, "get_image got %d bytes", bitmap_tuple->length - 1);
+
             if (bitmap_tuple->length - 1 < BUFFEROFFSET) {
                 done=true;
                 }
@@ -51,11 +51,7 @@ void get_image (Tuple *bitmap_tuple) {
         .info_flags = 1,
         .row_size_bytes = BITMAPWIDTH/8,
     };
-/*    
-    bitmap_layer_init(&bitmap_layer, GRect(30, 35, 64, 64));
-    bitmap_layer_set_bitmap(&bitmap_layer, &display_bitmap);
-    layer_add_child(window_get_root_layer(window), &bitmap_layer.layer);
-*/
+
         bitmap_layer_set_bitmap(image_layer, &display_bitmap);
     }
 }
@@ -70,23 +66,12 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 
   if (icon_tuple) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Icon msg: %s", "");
-    // only accept one initial tuple; the second may be a server reply to
-    // an out-of-date action on our part
-/*
-    if (dataInited) {
-      return;
-    }
-    else {
-      dataInited = true;
-    }
-*/
   }
   if (temp_tuple) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Temp msg: %s", "");
     text_layer_set_text(temperature_layer, temp_tuple->value->cstring);
   }
   if (bitmap_tuple) {
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "Bitmap msg - size: %d", sizeof ((const uint8_t *)bitmap_tuple->value->data));
     get_image (bitmap_tuple);
   }
 }
@@ -96,13 +81,7 @@ static void in_dropped_handler(AppMessageResult reason, void *context) {
 }
 
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
-
-//      if (wasFirstMsg && dataInited) {
-//  }
-//  else {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Failed to Send!");
-//  }
-//  wasFirstMsg = false;
 }
 
 
