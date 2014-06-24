@@ -4,7 +4,7 @@ env:
    - "MODULE_NAME=org.beuckman.tipebble" 
 before_install:
     - MODULE_ROOT=$PWD
-    - example/pebble_before_install.sh
+    - ./example/pebble_before_install.sh
 install:
     - cd $MODULE_ROOT
     - curl -o install.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/install.sh

@@ -160,18 +160,11 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    if (_connectedWatch == nil) {
-        
-        NSLog(@"[INFO] No Pebble watch connected.");
-        if (errorCallback != nil) {
-            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
-            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
-        }
-        
-        return;
-    }
+    if (![self checkWatchConnected]) return;
     
-    [_connectedWatch appMessagesPushUpdate:args onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+//    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
+    
+    [_connectedWatch appMessagesPushUpdate:[args objectForKey:@"message"] onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
         if (!error) {
             NSLog(@"Successfully sent message.");
             [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
@@ -183,6 +176,22 @@
     }];
 }
 
+-(BOOL)checkWatchConnected
+{
+    if (_connectedWatch == nil) {
+        
+        NSLog(@"[INFO] No Pebble watch connected.");
+        if (errorCallback != nil) {
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
+            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
+        }
+        
+        return FALSE;
+    }
+    else {
+        return TRUE;
+    }
+}
 
 -(void)getVersionInfo:(id)args
 {
@@ -198,17 +207,8 @@
     successCallback = [success retain];
     errorCallback = [error retain];
 
-    if (_connectedWatch == nil) {
-        
-        NSLog(@"[INFO] No Pebble watch connected.");
-        if (errorCallback != nil) {
-            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
-            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
-        }
-        
-        return;
-    }
-
+    if (![self checkWatchConnected]) return;
+    
     [_connectedWatch getVersionInfo:^(PBWatch *watch, PBVersionInfo *versionInfo ) {
         
         NSLog(@"Pebble firmware os version: %li", (long)versionInfo.runningFirmwareMetadata.version.os);
@@ -254,13 +254,7 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    if (_connectedWatch == nil) {
-        if (errorCallback != nil) {
-            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
-            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
-        }
-        return;
-    }
+    if (![self checkWatchConnected]) return;
     
     [_connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
         if (!error) {
@@ -294,13 +288,7 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    if (_connectedWatch == nil) {
-        if (errorCallback != nil) {
-            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
-            [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
-        }
-        return;
-    }
+    if (![self checkWatchConnected]) return;
     
     [_connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
         if (!error) {
@@ -331,10 +319,7 @@
     UIImage *image = [blob image];
 
     
-    if (_connectedWatch == nil || [_connectedWatch isConnected] == NO) {
-        [[[UIAlertView alloc] initWithTitle:nil message:@"No connected watch!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        return;
-    }
+    if (![self checkWatchConnected]) return;
     
     [self sendImageToPebble:image withKey: @(2)];
     
@@ -357,7 +342,7 @@
         //enqueue ex: https://github.com/Katharine/peapod/
         [pebbleDataQueue enqueue:@{key: outgoing}];
         ++j;
-        NSLog(@" - - - enqueued %lu bytes", MIN(MAX_OUTGOING_SIZE-1, length - i));
+        NSLog(@" --enqueued %lu bytes", MIN(MAX_OUTGOING_SIZE-1, length - i));
     }
 }
 
