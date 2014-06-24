@@ -162,9 +162,12 @@
     
     if (![self checkWatchConnected]) return;
     
-//    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
+    [[args objectForKey:@"message"] enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
+        [message setObject:obj forKey:[key integerValue]];
+    }];
     
-    [_connectedWatch appMessagesPushUpdate:[args objectForKey:@"message"] onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+    [_connectedWatch appMessagesPushUpdate:message onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
         if (!error) {
             NSLog(@"Successfully sent message.");
             [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
