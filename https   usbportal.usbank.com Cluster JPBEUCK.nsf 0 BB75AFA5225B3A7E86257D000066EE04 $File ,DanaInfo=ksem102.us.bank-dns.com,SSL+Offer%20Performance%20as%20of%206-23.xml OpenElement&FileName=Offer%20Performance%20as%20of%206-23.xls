@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Koehler, Brian R</Author>
+  <LastAuthor>Koehler, Brian R</LastAuthor>
+  <Created>2014-06-23T18:44:04Z</Created>
+  <LastSaved>2014-06-23T16:30:54Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG></AllowPNG>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>9945</WindowHeight>
+  <WindowWidth>10005</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>195</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"></Alignment>
+   <Borders></Borders>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"></Font>
+   <Interior></Interior>
+   <NumberFormat></NumberFormat>
+   <Protection></Protection>
+  </Style>
+  <Style ss:ID="s20" ss:Name="Percent">
+   <NumberFormat ss:Format="0%"></NumberFormat>
+  </Style>
+  <Style ss:ID="s62">
+   <NumberFormat></NumberFormat>
+  </Style>
+  <Style ss:ID="s63" ss:Parent="s20">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"></Font>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="offer_stats">
+  <SCRIPT language="javascript" id="dsshim" src="/dana-cached/js/shimdata.cgi"></SCRIPT><SCRIPT language="javascript" id="dsfunc" src="/dana-cached/js/oth.js"></SCRIPT><SCRIPT language="javascript" id="dstimeout" src="/dana-cached/js/sessiontimeout.js"></SCRIPT><SCRIPT language="javascript" id="dsvar" >
+//<![CDATA[
+var dsnodocwrites = 0 ; var DanaCookie="Shimmer=SI_TLM:20140623T161928%2C82Z&ST_Counter:3&LAO:mail&CS_TLM:20140623T165500%2C03Z; ShimmerS=ET:20140624T045438%2c00Z&R:0&AT:M&N:5E5D36CC34185409F14BB31CCAEE87D9; LtpaToken2=Am\/DedRG3EIlg13K2Bl5EnRqVvT2yG5OKlE+QxqWv62xGMPdyaf51JHnNVlsOI1bZhz7Q9DAtelZlPToL+XDyvXjbm4skiNOFOuO\/TFzDImmx2Qld6e3tjsMrhr2rdVVKUx4Z14n\/nPJ0n6oA6Z+01D2XlssvQ+hgK9tKQLWlT+qUNz2VjIGWoOUpcTYKbG\/MZTwWzykzK4N9LDjYxzB\/qcu2CTNSZSiBTANAHOv13gbkGYyd9Ovw7R3legokatFV\/1WIpEkea+EqRt9n1ZC97ZetnUIdUGW5XM0R+AaDGzgLl3w5ahng4DhhY0UNUfs+OkA6+8e9J6jLDAbzQgmFiAHKjlIZbcxh\/EuS5HtbDoOSjXVxsVpgBbYDTllwWI7edxKEWa8VeoE1gnPmwzXPQ==; LtpaToken=zTXGjPswtGhWp5go1uKF9M90Y5582ABmEaPTQtyYzMIFvXRrfmTvcXeXmNPwKdxNDXLLPjU8IEJKuPS9cHE90eSvIznEKtRA7ZNgTsKi7Mh\/gN4RJp36TQPrBW64onHDMg60z8obOpyaoQHSsPzW14TO7uiooH6KKCO5ZbfQuv\/WRbZJv2vyRBJYEZwBUCYL9fh6i7caUP9X6Zv7d3v9rJVD6bl5pZwmAPWGHgD8VfGUFsE0cVrIA\/E0T2TPU3sly0C7JJxywjaFK4QyYzH4Uyf8W9MKN00OcCNuY3\/u1O4JfpqouSG87b6SDk5i2+gTJInQl2t6ZbCfQaPA4HzKo7AOwdMcAhec6iK69rfgGsYrm1Z1pr78dZBwucPoILem"; var DSHost="usbportal.usbank.com"; var DSLang="en"; var DSObfuscateHostname=0;var DSTBSettings=20497;var DSTBLU='/dana/home/starter.cgi?startpageonly=1';;danaSetDSHost();
+//]]>
+</SCRIPT><Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="29" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+   <Column ss:AutoFitWidth="0" ss:Width="141.75"></Column>
+   <Column ss:Width="264.75"></Column>
+   <Column ss:Width="56.25" ss:Span="1"></Column>
+   <Column ss:Index="8" ss:AutoFitWidth="0" ss:Width="68.25"></Column>
+   <Column ss:Width="74.25"></Column>
+   <Row>
+    <Cell><Data ss:Type="String">Merchant</Data></Cell>
+    <Cell><Data ss:Type="String">Title</Data></Cell>
+    <Cell><Data ss:Type="String">Start</Data></Cell>
+    <Cell><Data ss:Type="String">End</Data></Cell>
+    <Cell><Data ss:Type="String">Views</Data></Cell>
+    <Cell><Data ss:Type="String">Favorites</Data></Cell>
+    <Cell><Data ss:Type="String">Ratings</Data></Cell>
+    <Cell><Data ss:Type="String">Redemptions</Data></Cell>
+    <Cell><Data ss:Type="String">Redemption %</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cafe Donuts</Data></Cell>
+    <Cell><Data ss:Type="String">$2 Off One Dozen Donuts</Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/23/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">71</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.14084507042253522</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$1 Off Your Order</Data></Cell>
+    <Cell><Data ss:Type="String">05/05/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/09/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">19</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.15789473684210525</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">Buy-One-Get-One at Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">05/12/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/17/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">74</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">13</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.17567567567567569</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$2 Medium Beverage at Caribou</Data></Cell>
+    <Cell><Data ss:Type="String">05/19/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/24/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">87</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">35</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.40229885057471265</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">Free Brewed Coffee!</Data></Cell>
+    <Cell><Data ss:Type="String">05/26/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/28/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">39</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.15384615384615385</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$1 Off Your Order</Data></Cell>
+    <Cell><Data ss:Type="String">05/29/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/31/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">35</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">13</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.2857142857142857</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$2 Medium Beverage at Caribou</Data></Cell>
+    <Cell><Data ss:Type="String">06/02/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/08/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">94</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">26</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">16</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.1702127659574468</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">Buy-One-Get-One at Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">06/09/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/15/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">69</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">16</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">19</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.27536231884057971</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">Free Brewed Coffee!</Data></Cell>
+    <Cell><Data ss:Type="String">06/16/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/22/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">88</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">20</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">27</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.30681818181818182</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$2 Medium Beverage at Caribou</Data></Cell>
+    <Cell><Data ss:Type="String">06/23/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/29/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.75</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Caribou Coffee</Data></Cell>
+    <Cell><Data ss:Type="String">$1 Off Your Order</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell><Data ss:Type="String">07/06/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cousin Subs</Data></Cell>
+    <Cell><Data ss:Type="String">Free Drink with Sub Purchase</Data></Cell>
+    <Cell><Data ss:Type="String">05/06/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cousin Subs</Data></Cell>
+    <Cell><Data ss:Type="String">Free Drink with Sub Purchase</Data></Cell>
+    <Cell><Data ss:Type="String">05/06/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/16/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">23</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Cousin Subs</Data></Cell>
+    <Cell><Data ss:Type="String">$1 off sub</Data></Cell>
+    <Cell><Data ss:Type="String">06/08/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">45</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">4.4444444444444446E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">DQ / OJ</Data></Cell>
+    <Cell><Data ss:Type="String">Buy One Get One Smoothie / Orange Julius </Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/25/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">51</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">3.9215686274509803E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">DQ / OJ</Data></Cell>
+    <Cell><Data ss:Type="String">Buy One Get One Smoothie / Orange Julius </Data></Cell>
+    <Cell><Data ss:Type="String">06/09/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">65</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">6.1538461538461542E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Health Source Chiropractic </Data></Cell>
+    <Cell><Data ss:Type="String">Massage Special</Data></Cell>
+    <Cell><Data ss:Type="String">05/08/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/09/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Health Source Chiropractic </Data></Cell>
+    <Cell><Data ss:Type="String">$15 / 30 minute massage</Data></Cell>
+    <Cell><Data ss:Type="String">06/09/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">59</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">5.0847457627118647E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Mama's Pizza</Data></Cell>
+    <Cell><Data ss:Type="String">Morning Special </Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/06/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">137</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">17</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">2.1897810218978103E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Moss Optical</Data></Cell>
+    <Cell><Data ss:Type="String">$20 off Ray-Ban Sunglasses</Data></Cell>
+    <Cell><Data ss:Type="String">05/13/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">26</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">7.6923076923076927E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Murph Dog </Data></Cell>
+    <Cell><Data ss:Type="String">$4 meal special!</Data></Cell>
+    <Cell><Data ss:Type="String">06/09/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">72</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">2.7777777777777776E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sawatdee</Data></Cell>
+    <Cell><Data ss:Type="String">Sawatdee Lunch Buffet</Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/23/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">63</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Sawatdee</Data></Cell>
+    <Cell><Data ss:Type="String">Sawatdee Lunch Buffet</Data></Cell>
+    <Cell><Data ss:Type="String">06/08/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">67</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">14</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">2.9850746268656716E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">SkyBites</Data></Cell>
+    <Cell><Data ss:Type="String">$2 Off Salads</Data></Cell>
+    <Cell><Data ss:Type="String">05/07/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">62</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">6.4516129032258063E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Take Care Chiropractic</Data></Cell>
+    <Cell><Data ss:Type="String">Free 30 Min Massage with a New Patient Consult </Data></Cell>
+    <Cell><Data ss:Type="String">05/21/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">25</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.04</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">The Northern Lights Tea Company</Data></Cell>
+    <Cell><Data ss:Type="String">20% Merchandise </Data></Cell>
+    <Cell><Data ss:Type="String">05/10/2014</Data></Cell>
+    <Cell><Data ss:Type="String">05/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">47</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">6.3829787234042548E-2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">The Northern Lights Tea Company</Data></Cell>
+    <Cell><Data ss:Type="String">25% off Hari Ghatta</Data></Cell>
+    <Cell><Data ss:Type="String">06/11/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/30/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">15</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.13333333333333333</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Wuollet Bakery </Data></Cell>
+    <Cell><Data ss:Type="String">Free Coffee with Purchase</Data></Cell>
+    <Cell><Data ss:Type="String">05/15/2014</Data></Cell>
+    <Cell><Data ss:Type="String">06/27/2014</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">116</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">32</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="Number">18</Data></Cell>
+    <Cell ss:StyleID="s63" ss:Formula="=RC[-1]/RC[-4]"><Data ss:Type="Number">0.15517241379310345</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Selected></Selected>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>7</ActiveRow>
+     <ActiveCol>10</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
