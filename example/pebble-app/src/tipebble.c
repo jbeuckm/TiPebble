@@ -7,12 +7,14 @@ static char message_string[16];
 
 static BitmapLayer *image_layer;
 static GBitmap *image_bitmap = NULL;
-
+static char image_width = 0;
+static char image_height = 0;
+static int image_bytes_loaded = 0;
 
 static AppSync sync;
 
-#define PHONEBUFFERSIZE 95
-#define BUFFEROFFSET (PHONEBUFFERSIZE-1)
+#define PHONEBUFFERSIZE 97
+#define BUFFEROFFSET (PHONEBUFFERSIZE-3)
 #define BITMAPWIDTH 128 // we're assuming square BITMAPS
 #define BITMAPSIZE (BITMAPWIDTH * BITMAPWIDTH / 8)     // 128x128/8
 
@@ -33,12 +35,22 @@ void get_image (Tuple *bitmap_tuple) {
 
     if (bitmap_tuple) {
         if (bitmap_tuple->type == TUPLE_BYTE_ARRAY){
-            size_t offset = bitmap_tuple->value->data[0] * BUFFEROFFSET;
-            memcpy(bitmap_data + offset, bitmap_tuple->value->data + 1, bitmap_tuple->length - 1);
             
-            if (bitmap_tuple->length - 1 < BUFFEROFFSET) {
+            image_width = bitmap_tuple->value->data[1];
+            image_height = bitmap_tuple->value->data[2];
+            
+            size_t offset = bitmap_tuple->value->data[0] * BUFFEROFFSET;
+            if (offset == 0) {
+                image_bytes_loaded = 0;
+            }
+            memcpy(bitmap_data + offset, bitmap_tuple->value->data + 3, bitmap_tuple->length - 3);
+            
+            image_bytes_loaded = image_bytes_loaded + bitmap_tuple->length - 3;
+            
+            if (bitmap_tuple->length - 3 < BUFFEROFFSET) {
                 done=true;
             }
+
         }
     }
     

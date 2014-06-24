@@ -352,22 +352,27 @@
 
 }
 
-#define MAX_OUTGOING_SIZE 95
+#define MAX_OUTGOING_SIZE 97
 
 -(void)sendImageToPebble:(UIImage*)image withKey:(id)key {
+    
+    char width = image.size.width;
+    char height = image.size.height;
 
     PBBitmap* pbBitmap = [PBBitmap pebbleBitmapWithUIImage:image];
     size_t length = [pbBitmap.pixelData length];
     uint8_t j = 0;
     NSLog(@"length of the pixelData: %zu", length);
-    for(size_t i = 0; i < length; i += MAX_OUTGOING_SIZE-1) {
+    for(size_t i = 0; i < length; i += MAX_OUTGOING_SIZE-3) {
         NSMutableData *outgoing = [[NSMutableData alloc] initWithCapacity:MAX_OUTGOING_SIZE];
         [outgoing appendBytes:&j length:1];
-        [outgoing appendData:[pbBitmap.pixelData subdataWithRange:NSMakeRange(i, MIN(MAX_OUTGOING_SIZE-1, length - i))]];
+        [outgoing appendBytes:&width length:1];
+        [outgoing appendBytes:&height length:1];
+        [outgoing appendData:[pbBitmap.pixelData subdataWithRange:NSMakeRange(i, MIN(MAX_OUTGOING_SIZE-3, length - i))]];
         //enqueue ex: https://github.com/Katharine/peapod/
         [pebbleDataQueue enqueue:@{key: outgoing}];
         ++j;
-        NSLog(@" --enqueued %lu bytes", MIN(MAX_OUTGOING_SIZE-1, length - i));
+        NSLog(@" --enqueued %lu bytes", MIN(MAX_OUTGOING_SIZE-3, length - i));
     }
 }
 
