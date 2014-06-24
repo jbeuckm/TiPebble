@@ -356,8 +356,9 @@
 
 -(void)sendImageToPebble:(UIImage*)image withKey:(id)key {
     
-    char width = image.size.width;
-    char height = image.size.height;
+    uint8_t width = image.size.width;
+    uint8_t height = image.size.height;
+    NSLog(@"[INFO] sending image size %d x %d", width, height);
 
     PBBitmap* pbBitmap = [PBBitmap pebbleBitmapWithUIImage:image];
     size_t length = [pbBitmap.pixelData length];

@@ -8,8 +8,10 @@ static char message_string[16];
 static BitmapLayer *image_layer;
 static GBitmap *image_bitmap = NULL;
 static uint8_t image_width = 0;
+static uint8_t image_transmit_width = 0;
 static uint8_t image_height = 0;
-static int image_bytes_loaded = 0;
+static size_t image_bytes_loaded = 0;
+static size_t image_bytes_total = 0;
 
 static AppSync sync;
 
@@ -34,18 +36,26 @@ void get_image (Tuple *bitmap_tuple) {
     if (!bitmap_tuple)  return;
     if (bitmap_tuple->type != TUPLE_BYTE_ARRAY) return;
     
-    image_width = bitmap_tuple->value->data[1];
-    image_height = bitmap_tuple->value->data[2];
     
     size_t offset = bitmap_tuple->value->data[0] * BUFFEROFFSET;
     if (offset == 0) {
+        image_width = bitmap_tuple->value->data[1];
+        
+        image_transmit_width = 32;
+        while (image_transmit_width < image_width) {
+            image_transmit_width += 32;
+        }
+        image_height = bitmap_tuple->value->data[2];
+        image_bytes_total = image_transmit_width * image_height / 8;
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
         image_bytes_loaded = 0;
     }
     memcpy(bitmap_data + offset, bitmap_tuple->value->data + 3, bitmap_tuple->length - 3);
     
-    image_bytes_loaded = image_bytes_loaded + bitmap_tuple->length - 3;
+    image_bytes_loaded += bitmap_tuple->length - 3;
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "image_bytes_loaded = %d", image_bytes_loaded);
     
-    if (bitmap_tuple->length - 3 < BUFFEROFFSET) {
+    if (image_bytes_loaded >= image_bytes_total) {
         
         APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
         
