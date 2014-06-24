@@ -4,7 +4,7 @@
   "longName": "TiPebble Demo",
   "companyName": "Pebble Technology",
   "versionCode": 1,
-  "versionLabel": “0.1.0”,
+  "versionLabel": "0.1.0",
   "watchapp": {
     "watchface": false
   },
