@@ -77,3 +77,22 @@ function killApp() {
   });
 }
 ```
+
+Send messages to the app with integer keys and string or integer values:
+
+```javascript
+function sendMessage() {
+  pebble.sendMessage({
+    message: {
+      0: 123,
+      1: 'TiPebble'
+    },
+    success: function(e) {
+      Ti.API.info(e);
+    },
+    error : function(e) {
+      Ti.API.error(e);
+    }
+  });
+}
+```

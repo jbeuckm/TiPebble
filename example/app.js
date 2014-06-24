@@ -63,19 +63,23 @@ function killApp() {
       }
   });
 }
-/*
-pebble.appMessageSupported(function(e) {
-    Ti.API.info("appMessageSupported");
-});
 
-var update = {
-    0: 123,
-    1: "hello"
-};
-pebble.pushUpdate({
-    update: update,
-    
-});
+function sendMessage() {
+  pebble.sendMessage({
+    message: {
+      0: 123,
+      1: 'TiPebble'
+    },
+    success: function(e) {
+      Ti.API.info(e);
+    },
+    error : function(e) {
+      Ti.API.error(e);
+    }
+  });
+}
+
+/*
 
 pebble.addEventListener("updateReceived", function(e) {
     Ti.API.info("updateReceived");
