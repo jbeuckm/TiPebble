@@ -148,10 +148,12 @@
 
 -(void)sendMessage:(id)args
 {
+    if (![self checkWatchConnected]) return;
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
-    NSLog(@"[INFO] TiPebble getVersionInfo()");
+    NSLog(@"[INFO] TiPebble sendMessage()");
     
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -160,14 +162,33 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    if (![self checkWatchConnected]) return;
+    NSDictionary *message = [args objectForKey:@"message"];
+    NSMutableDictionary *update = [[NSMutableDictionary alloc] init];
+
+    NSMutableArray *keys = [[message allKeys] mutableCopy];
     
-    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
-    [[args objectForKey:@"message"] enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-        [message setObject:obj forKey:[key integerValue]];
-    }];
+    for (NSString *key in keys) {
+        
+        id obj = [message objectForKey: key];
+        
+        NSNumber *updateKey = @([key integerValue]);
+
+        if ([obj isKindOfClass:[NSString class]]) {
+            NSString *objString = [[NSString alloc] initWithString:obj];
+            NSLog(@"[INFO] adding NSString %@", objString);
+            [update setObject:objString forKey:updateKey];
+        }
+        if ([obj isKindOfClass:[NSNumber class]]) {
+            NSNumber *objNumber = [[NSNumber alloc] initWithInteger:[obj integerValue]];
+            NSLog(@"[INFO] adding NSNumber %@", objNumber);
+            [update setObject:objNumber forKey:updateKey];
+        }
+
+    }
     
-    [_connectedWatch appMessagesPushUpdate:message onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+    NSLog(@"[INFO] %@", update);
+
+    [_connectedWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
         if (!error) {
             NSLog(@"Successfully sent message.");
             [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
@@ -177,13 +198,14 @@
             [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
         }
     }];
+
 }
 
 -(BOOL)checkWatchConnected
 {
     if (_connectedWatch == nil) {
         
-        NSLog(@"[INFO] No Pebble watch connected.");
+        NSLog(@"[ERROR] No Pebble watch connected.");
         if (errorCallback != nil) {
             NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"No Pebble watch connected.",@"message",nil];
             [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
@@ -198,6 +220,8 @@
 
 -(void)getVersionInfo:(id)args
 {
+    if (![self checkWatchConnected]) return;
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
@@ -210,8 +234,6 @@
     successCallback = [success retain];
     errorCallback = [error retain];
 
-    if (![self checkWatchConnected]) return;
-    
     [_connectedWatch getVersionInfo:^(PBWatch *watch, PBVersionInfo *versionInfo ) {
         
         NSLog(@"Pebble firmware os version: %li", (long)versionInfo.runningFirmwareMetadata.version.os);
@@ -245,6 +267,8 @@
 
 -(void)launchApp:(id)args
 {
+    if (![self checkWatchConnected]) return;
+    
 //    ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
@@ -256,8 +280,6 @@
     RELEASE_TO_NIL(errorCallback);
     successCallback = [success retain];
     errorCallback = [error retain];
-    
-    if (![self checkWatchConnected]) return;
     
     [_connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
         if (!error) {
@@ -279,6 +301,8 @@
 
 -(void)killApp:(id)args
 {
+    if (![self checkWatchConnected]) return;
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
 
@@ -290,8 +314,6 @@
     RELEASE_TO_NIL(errorCallback);
     successCallback = [success retain];
     errorCallback = [error retain];
-    
-    if (![self checkWatchConnected]) return;
     
     [_connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
         if (!error) {
@@ -313,6 +335,8 @@
 
 -(void)sendImage:(id)args
 {
+    if (![self checkWatchConnected]) return;
+    
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
 
@@ -320,9 +344,6 @@
 
     TiBlob *blob = [args objectForKey:@"image"];
     UIImage *image = [blob image];
-
-    
-    if (![self checkWatchConnected]) return;
     
     [self sendImageToPebble:image withKey: @(2)];
     

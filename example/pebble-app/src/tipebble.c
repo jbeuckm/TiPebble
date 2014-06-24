@@ -2,8 +2,8 @@
 
 static Window *window;
 
-static TextLayer *temperature_layer;
-static char temperature[16];
+static TextLayer *string_layer;
+static char message_string[16];
 
 static BitmapLayer *image_layer;
 static GBitmap *image_bitmap = NULL;
@@ -20,10 +20,10 @@ static uint8_t bitmap_data[BITMAPSIZE];
 static GBitmap display_bitmap;
 
 
-enum WeatherKey {
-  WEATHER_ICON_KEY = 0x0,         // TUPLE_INT
-  WEATHER_TEMPERATURE_KEY = 0x1,  // TUPLE_CSTRING
-  BITMAP_KEY = 0x2,  // TUPLE_CSTRING
+enum TupleKey {
+  INTEGER_KEY = 0x0,
+  STRING_KEY = 0x1,
+  BITMAP_KEY = 0x2,
 };
 
 
@@ -36,12 +36,12 @@ void get_image (Tuple *bitmap_tuple) {
 
             if (bitmap_tuple->length - 1 < BUFFEROFFSET) {
                 done=true;
-                }
             }
         }
+    }
         
     if (done) {
-        APP_LOG(APP_LOG_LEVEL_DEBUG, " - - get_image Done! %s", "");
+        APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
     
       //  display_bitmap = gbitmap_create_with_data(bitmap_data);
         
@@ -60,16 +60,17 @@ void get_image (Tuple *bitmap_tuple) {
 
 
 static void in_received_handler(DictionaryIterator *iter, void *context) {
+    
   Tuple *bitmap_tuple = dict_find(iter, BITMAP_KEY);
-  Tuple *temp_tuple = dict_find(iter, WEATHER_TEMPERATURE_KEY);
-  Tuple *icon_tuple = dict_find(iter, WEATHER_ICON_KEY);
+  Tuple *string_tuple = dict_find(iter, STRING_KEY);
+  Tuple *icon_tuple = dict_find(iter, INTEGER_KEY);
 
   if (icon_tuple) {
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Icon msg: %s", "");
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Integer msg: %s", "");
   }
-  if (temp_tuple) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Temp msg: %s", "");
-    text_layer_set_text(temperature_layer, temp_tuple->value->cstring);
+  if (string_tuple) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "String msg: %s", "");
+    text_layer_set_text(string_layer, string_tuple->value->cstring);
   }
   if (bitmap_tuple) {
     get_image (bitmap_tuple);
@@ -101,14 +102,14 @@ static void window_load(Window *window) {
   image_layer = bitmap_layer_create(GRect(10, 10, BITMAPWIDTH, BITMAPWIDTH));
   layer_add_child(window_layer, bitmap_layer_get_layer(image_layer));
 
-  temperature_layer = text_layer_create(GRect(0, 100, 144, 68));
-  text_layer_set_text_color(temperature_layer, GColorWhite);
-  text_layer_set_background_color(temperature_layer, GColorWhite);
-  text_layer_set_font(temperature_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  text_layer_set_text_alignment(temperature_layer, GTextAlignmentCenter);
-  text_layer_set_text(temperature_layer, temperature);
+  string_layer = text_layer_create(GRect(0, 100, 144, 68));
+  text_layer_set_text_color(string_layer, GColorBlack);
+  text_layer_set_background_color(string_layer, GColorClear);
+  text_layer_set_font(string_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_text_alignment(string_layer, GTextAlignmentCenter);
+  text_layer_set_text(string_layer, message_string);
 
-  layer_add_child(window_layer, text_layer_get_layer(temperature_layer));
+  layer_add_child(window_layer, text_layer_get_layer(string_layer));
 }
 
 
@@ -117,14 +118,14 @@ static void window_unload(Window *window) {
   if (image_bitmap) {
     gbitmap_destroy(image_bitmap);
   }
-  text_layer_destroy(temperature_layer);
+  text_layer_destroy(string_layer);
   bitmap_layer_destroy(image_layer);
 }
 
 
 static void init() {
   window = window_create();
-  window_set_background_color(window, GColorBlack);
+  window_set_background_color(window, GColorWhite);
   window_set_fullscreen(window, true);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
