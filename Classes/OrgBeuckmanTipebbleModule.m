@@ -344,8 +344,9 @@
 
     TiBlob *blob = [args objectForKey:@"image"];
     UIImage *image = [blob image];
-    
-    [self sendImageToPebble:image withKey: @(2)];
+
+    NSInteger updateKey = [TiUtils intValue:[args objectForKey:@"key"]];
+    [self sendImageToPebble:image withKey: @(updateKey)];
     
     NSLog(@"[INFO] Back from sendImageToPebble");
 
