@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/jbeuckm/TiPebble.png)](https://travis-ci.org/jbeuckm/TiPebble)
 
-![Pebble Screenshot](photo1.jpeg =300x260)
-
 Implements basic features of the Pebble iOS SDK.
+
+![Pebble Screenshot](photo1.jpeg)
 
 ## Quick Start
 
