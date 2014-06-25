@@ -1,7 +1,8 @@
 # TiPebble #
 
 [![Build Status](https://travis-ci.org/jbeuckm/TiPebble.png)](https://travis-ci.org/jbeuckm/TiPebble)
-![caution](http://img.shields.io/badge/new%20project-caution-orange.svg)
+
+![Pebble Screenshot](photo1.jpeg =300x260)
 
 Implements basic features of the Pebble iOS SDK.
 
@@ -96,3 +97,27 @@ function sendMessage() {
   });
 }
 ```
+
+Send an image for display on the Pebble ![caution](http://img.shields.io/badge/experimental-feature-orange.svg)
+
+This requires your Pebble app to implement image receiving code as appears in the example Pebble app.
+
+```javascript
+function sendImage() {
+
+  var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'image.png');
+
+  pebble.sendImage({
+    image : f.read(),
+    key: 2,
+    success: function(e) {
+      Ti.API.info(e);
+    },
+    error : function(e) {
+      Ti.API.error(e);
+    }
+  });
+}
+```
+
+

@@ -17,10 +17,8 @@ static AppSync sync;
 
 #define PHONEBUFFERSIZE 97
 #define BUFFEROFFSET (PHONEBUFFERSIZE-3)
-#define BITMAPWIDTH 128 // we're assuming square BITMAPS
-#define BITMAPSIZE (BITMAPWIDTH * BITMAPWIDTH / 8)     // 128x128/8
 
-static uint8_t bitmap_data[BITMAPSIZE];
+static uint8_t bitmap_data[160*168/8]; // capable of max image size (width req multiple of 32)
 static GBitmap display_bitmap;
 
 
@@ -47,6 +45,7 @@ void get_image (Tuple *bitmap_tuple) {
         }
         image_height = bitmap_tuple->value->data[2];
         image_bytes_total = image_transmit_width * image_height / 8;
+        
         APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
         image_bytes_loaded = 0;
     }
@@ -63,9 +62,9 @@ void get_image (Tuple *bitmap_tuple) {
         
         display_bitmap = (GBitmap) {  // Katharine's code set this explicitly.  The method above should handle it.
             .addr = bitmap_data,
-            .bounds = GRect(0, 0, BITMAPWIDTH, BITMAPWIDTH),
+            .bounds = GRect(0, 0, image_width, image_height),
             .info_flags = 1,
-            .row_size_bytes = BITMAPWIDTH/8,
+            .row_size_bytes = image_transmit_width/8,
         };
         
         bitmap_layer_set_bitmap(image_layer, &display_bitmap);
@@ -115,13 +114,14 @@ static void app_message_init(void) {
 static void window_load(Window *window) {
     Layer *window_layer = window_get_root_layer(window);
     
-    image_layer = bitmap_layer_create(GRect(0, 0, BITMAPWIDTH, BITMAPWIDTH));
+    image_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
+    bitmap_layer_set_alignment(image_layer, GAlignTop);
     layer_add_child(window_layer, bitmap_layer_get_layer(image_layer));
     
-    string_layer = text_layer_create(GRect(0, 130, 144, 68));
+    string_layer = text_layer_create(GRect(0, 140, 144, 38));
     text_layer_set_text_color(string_layer, GColorBlack);
     text_layer_set_background_color(string_layer, GColorClear);
-    text_layer_set_font(string_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+    text_layer_set_font(string_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
     text_layer_set_text_alignment(string_layer, GTextAlignmentCenter);
     text_layer_set_text(string_layer, message_string);
     
