@@ -100,7 +100,7 @@ function sendMessage() {
 
 Send an image for display on the Pebble ![caution](http://img.shields.io/badge/experimental-feature-orange.svg)
 
-This requires your Pebble app to implement image receiving code as appears in the [example Pebble app](https://github.com/jbeuckm/TiPebble/blob/master/example/pebble-app/src/tipebble.c). Images on the Pebble must have width a multiple of 32 pixels. If your image is not a multiple of 32 pixels wide, a black border will be added to the right, expanding to the next multiple of 32.
+This requires your Pebble app to implement [image receiving code](https://github.com/jbeuckm/TiPebble/blob/master/example/pebble-app/src/tipebble.c#L32) as appears in the [example Pebble app](https://github.com/jbeuckm/TiPebble/blob/master/example/pebble-app/). Images on the Pebble must have width a multiple of 32 pixels. If your image is not a multiple of 32 pixels wide, a black border will be added to the right, expanding to the next multiple of 32.
 
 ```javascript
 function sendImage() {
