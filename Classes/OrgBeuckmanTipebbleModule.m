@@ -36,15 +36,15 @@
     
     [[PBPebbleCentral defaultCentral] setDelegate:self];
     
-    _connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
-    [_connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
+    connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
+    [connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
         NSLog(@"Received message: %@", update);
         [self fireEvent:@"update" withObject:update];
         return YES;
     }];
     
     pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
-    pebbleDataQueue.watch = _connectedWatch;
+    pebbleDataQueue.watch = connectedWatch;
     
 	NSLog(@"[INFO] %@ loaded", self);
 }
@@ -54,7 +54,7 @@
 
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
     NSLog(@"Pebble connected: %@", [watch name]);
-    _connectedWatch = watch;
+    connectedWatch = watch;
     
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
     [self fireEvent:@"watchConnected" withObject:event];
@@ -63,8 +63,8 @@
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidDisconnect:(PBWatch*)watch {
     NSLog(@"Pebble disconnected: %@", [watch name]);
     
-    if (_connectedWatch == watch || [watch isEqual:_connectedWatch]) {
-        _connectedWatch = nil;
+    if (connectedWatch == watch || [watch isEqual:connectedWatch]) {
+        connectedWatch = nil;
     }
 
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
@@ -153,6 +153,8 @@
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
+    @synchronized(connectedWatch){
+
     NSLog(@"[INFO] TiPebble sendMessage()");
     
     id success = [args objectForKey:@"success"];
@@ -188,7 +190,7 @@
     
     NSLog(@"[INFO] %@", update);
 
-    [_connectedWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
+    [connectedWatch appMessagesPushUpdate:update onSent:^(PBWatch *watch, NSDictionary *update, NSError *error) {
         if (!error) {
             NSLog(@"Successfully sent message.");
             [self _fireEventToListener:@"success" withObject:nil listener:successCallback thisObject:nil];
@@ -198,12 +200,12 @@
             [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
         }
     }];
-
+    }
 }
 
 -(BOOL)checkWatchConnected
 {
-    if (_connectedWatch == nil) {
+    if (connectedWatch == nil) {
         
         NSLog(@"[ERROR] No Pebble watch connected.");
         if (errorCallback != nil) {
@@ -225,6 +227,8 @@
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
     
+    @synchronized(connectedWatch){
+
     NSLog(@"[INFO] TiPebble getVersionInfo()");
     
     id success = [args objectForKey:@"success"];
@@ -234,7 +238,7 @@
     successCallback = [success retain];
     errorCallback = [error retain];
 
-    [_connectedWatch getVersionInfo:^(PBWatch *watch, PBVersionInfo *versionInfo ) {
+    [connectedWatch getVersionInfo:^(PBWatch *watch, PBVersionInfo *versionInfo ) {
         
         NSLog(@"Pebble firmware os version: %li", (long)versionInfo.runningFirmwareMetadata.version.os);
         NSLog(@"Pebble firmware major version: %li", (long)versionInfo.runningFirmwareMetadata.version.major);
@@ -261,7 +265,7 @@
                 }
             }
      ];
-    
+    }
 }
 
 
@@ -269,8 +273,10 @@
 {
     if (![self checkWatchConnected]) return;
     
-//    ENSURE_UI_THREAD_1_ARG(args);
+    ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
+    
+    @synchronized(connectedWatch){
     
     NSLog(@"[INFO] TiPebble launchApp()");
     
@@ -281,7 +287,7 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    [_connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
+    [connectedWatch appMessagesLaunch:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
                 NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Successfully launched app.",@"message",nil];
@@ -296,6 +302,8 @@
             }
         }
     }];
+    
+    }
 }
 
 
@@ -306,7 +314,9 @@
     ENSURE_UI_THREAD_1_ARG(args);
     ENSURE_SINGLE_ARG(args, NSDictionary);
 
-    NSLog(@"[INFO] TiPebble killApp()");
+    @synchronized(connectedWatch){
+
+        NSLog(@"[INFO] TiPebble killApp()");
 
     id success = [args objectForKey:@"success"];
     id error = [args objectForKey:@"error"];
@@ -315,7 +325,7 @@
     successCallback = [success retain];
     errorCallback = [error retain];
     
-    [_connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
+    [connectedWatch appMessagesKill:^(PBWatch *watch, NSError *error) {
         if (!error) {
             if (successCallback != nil) {
                 NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Successfully killed app.",@"message",nil];
@@ -330,6 +340,7 @@
             }
         }
     }];
+    }
 }
 
 
@@ -349,10 +360,9 @@
     [self sendImageToPebble:image withKey: @(updateKey)];
     
     NSLog(@"[INFO] Back from sendImageToPebble");
-
 }
 
-#define MAX_OUTGOING_SIZE 97
+#define MAX_OUTGOING_SIZE 95
 
 -(void)sendImageToPebble:(UIImage*)image withKey:(id)key {
     

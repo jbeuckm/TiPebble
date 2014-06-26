@@ -15,7 +15,7 @@ static size_t image_bytes_total = 0;
 
 static AppSync sync;
 
-#define PHONEBUFFERSIZE 97
+#define PHONEBUFFERSIZE 95
 #define BUFFEROFFSET (PHONEBUFFERSIZE-3)
 
 static uint8_t bitmap_data[160*168/8]; // capable of max image size (width req multiple of 32)
