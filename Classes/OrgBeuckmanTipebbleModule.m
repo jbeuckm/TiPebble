@@ -362,7 +362,7 @@
     NSLog(@"[INFO] Back from sendImageToPebble");
 }
 
-#define MAX_OUTGOING_SIZE 95
+#define MAX_OUTGOING_SIZE 97
 
 -(void)sendImageToPebble:(UIImage*)image withKey:(id)key {
     

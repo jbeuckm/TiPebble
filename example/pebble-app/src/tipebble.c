@@ -15,7 +15,7 @@ static size_t image_bytes_total = 0;
 
 static AppSync sync;
 
-#define PHONEBUFFERSIZE 95
+#define PHONEBUFFERSIZE 97
 #define BUFFEROFFSET (PHONEBUFFERSIZE-3)
 
 static uint8_t bitmap_data[160*168/8]; // capable of max image size (width req multiple of 32)
@@ -46,17 +46,17 @@ void get_image (Tuple *bitmap_tuple) {
         image_height = bitmap_tuple->value->data[2];
         image_bytes_total = image_transmit_width * image_height / 8;
         
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
+//        APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
         image_bytes_loaded = 0;
     }
     memcpy(bitmap_data + offset, bitmap_tuple->value->data + 3, bitmap_tuple->length - 3);
     
     image_bytes_loaded += bitmap_tuple->length - 3;
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "image_bytes_loaded = %d", image_bytes_loaded);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "image_bytes_loaded = %d", image_bytes_loaded);
     
     if (image_bytes_loaded >= image_bytes_total) {
         
-        APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
+//        APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
         
         //  display_bitmap = gbitmap_create_with_data(bitmap_data);
         
@@ -114,7 +114,7 @@ static void app_message_init(void) {
 static void window_load(Window *window) {
     Layer *window_layer = window_get_root_layer(window);
     
-    image_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
+    image_layer = bitmap_layer_create(GRect(4, 4, 136, 136));
     bitmap_layer_set_alignment(image_layer, GAlignTop);
     layer_add_child(window_layer, bitmap_layer_get_layer(image_layer));
     
