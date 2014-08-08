@@ -15,7 +15,7 @@ static size_t image_bytes_total = 0;
 
 static AppSync sync;
 
-#define PHONEBUFFERSIZE 97
+#define PHONEBUFFERSIZE 95
 #define BUFFEROFFSET (PHONEBUFFERSIZE-3)
 
 static uint8_t bitmap_data[160*168/8]; // capable of max image size (width req multiple of 32)
@@ -27,6 +27,26 @@ enum TupleKey {
     STRING_KEY = 0x1,
     BITMAP_KEY = 0x2,
 };
+
+char *translate_error(AppMessageResult result) {
+    switch (result) {
+        case APP_MSG_OK: return "APP_MSG_OK";
+        case APP_MSG_SEND_TIMEOUT: return "APP_MSG_SEND_TIMEOUT";
+        case APP_MSG_SEND_REJECTED: return "APP_MSG_SEND_REJECTED";
+        case APP_MSG_NOT_CONNECTED: return "APP_MSG_NOT_CONNECTED";
+        case APP_MSG_APP_NOT_RUNNING: return "APP_MSG_APP_NOT_RUNNING";
+        case APP_MSG_INVALID_ARGS: return "APP_MSG_INVALID_ARGS";
+        case APP_MSG_BUSY: return "APP_MSG_BUSY";
+        case APP_MSG_BUFFER_OVERFLOW: return "APP_MSG_BUFFER_OVERFLOW";
+        case APP_MSG_ALREADY_RELEASED: return "APP_MSG_ALREADY_RELEASED";
+        case APP_MSG_CALLBACK_ALREADY_REGISTERED: return "APP_MSG_CALLBACK_ALREADY_REGISTERED";
+        case APP_MSG_CALLBACK_NOT_REGISTERED: return "APP_MSG_CALLBACK_NOT_REGISTERED";
+        case APP_MSG_OUT_OF_MEMORY: return "APP_MSG_OUT_OF_MEMORY";
+        case APP_MSG_CLOSED: return "APP_MSG_CLOSED";
+        case APP_MSG_INTERNAL_ERROR: return "APP_MSG_INTERNAL_ERROR";
+        default: return "UNKNOWN ERROR";
+    }
+}
 
 
 void get_image (Tuple *bitmap_tuple) {
@@ -92,8 +112,8 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
     }
 }
 
-static void in_dropped_handler(AppMessageResult reason, void *context) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Dropped! : %d", reason);
+static void appmsg_in_dropped(AppMessageResult reason, void *context) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "In dropped: %i - %s", reason, translate_error(reason));
 }
 
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
@@ -104,7 +124,7 @@ static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reas
 static void app_message_init(void) {
     // Register message handlers
     app_message_register_inbox_received(in_received_handler);
-    app_message_register_inbox_dropped(in_dropped_handler);
+    app_message_register_inbox_dropped(appmsg_in_dropped);
     app_message_register_outbox_failed(out_failed_handler);
     // Init buffers
     app_message_open(105, 105);
@@ -163,3 +183,6 @@ int main(void) {
     app_event_loop();
     deinit();
 }
+
+
+
