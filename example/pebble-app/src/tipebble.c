@@ -113,10 +113,12 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 
 static void in_dropped_handler(AppMessageResult reason, void *context) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Dropped! : %d", reason);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, translate_error(reason));
 }
 
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Failed to Send!");
+    APP_LOG(APP_LOG_LEVEL_DEBUG, translate_error(reason));
     vibes_double_pulse();
 }
 
@@ -132,8 +134,9 @@ void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
     DictionaryIterator *iter;
     app_message_outbox_begin(&iter);
     
-    Tuplet value = TupletInteger(1, 42);
+    Tuplet value = TupletInteger(INTEGER_KEY, 42);
     dict_write_tuplet(iter, &value);
+    dict_write_end(iter);
     
     app_message_outbox_send();
  

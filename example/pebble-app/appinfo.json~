@@ -4,15 +4,11 @@
   "longName": "TiPebble Demo",
   "companyName": "Pebble Technology",
   "versionCode": 1,
-  "versionLabel": "0.1.1",
+  "versionLabel": "0.1.0",
   "watchapp": {
     "watchface": false
   },
-  "appKeys": { 
-  	     "integerKey": 0,
-	     "stringKey": 1,
-	     "bitmapKey":2
-  },
+  "appKeys": { "iconKey": 0, "temperatureKey": 1, "bitmapKey":2},
   "resources": {
     "media": [
     ]

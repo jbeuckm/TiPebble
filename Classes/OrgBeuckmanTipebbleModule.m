@@ -51,9 +51,12 @@
     if (connectedWatch) {
         [connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
             NSLog(@"[INFO] Received message: %@", update);
-            [self fireEvent:@"update" withObject:update];
+//            [self fireEvent:@"update" withObject:update];
             return YES;
         }];
+    }
+    else {
+        NSLog(@"[ERROR] Will not listen for messages: no watch connected.");
     }
 }
 
@@ -71,6 +74,8 @@
     NSLog(@"Pebble disconnected: %@", [watch name]);
     
     if (connectedWatch == watch || [watch isEqual:connectedWatch]) {
+        [connectedWatch closeSession:^{
+        }];
         connectedWatch = nil;
     }
 
@@ -144,6 +149,7 @@
     NSLog(@"%@", myAppUUID);
 
     [[PBPebbleCentral defaultCentral] setAppUUID:[NSData dataWithBytes:myAppUUIDbytes length:16]];
+    [self listenToConnectedWatch];
 }
 
 
@@ -206,6 +212,8 @@
             NSLog(@"Error sending message: %@", error);
             [self _fireEventToListener:@"error" withObject:error listener:errorCallback thisObject:nil];
         }
+        [connectedWatch closeSession:^{
+        }];
     }];
     }
 }
@@ -262,6 +270,8 @@
 
             [self _fireEventToListener:@"success" withObject:versionInfoDict listener:successCallback thisObject:nil];
         }
+        [connectedWatch closeSession:^{
+        }];
         
     }
             onTimeout:^(PBWatch *watch) {
@@ -270,6 +280,8 @@
                     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:@"Timed out trying to get version info from Pebble.",@"message",nil];
                     [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
                 }
+                [connectedWatch closeSession:^{
+                }];
             }
      ];
     }
@@ -308,6 +320,8 @@
                 [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
             }
         }
+        [connectedWatch closeSession:^{
+        }];
     }];
     
     }
@@ -346,6 +360,8 @@
                 [self _fireEventToListener:@"error" withObject:event listener:errorCallback thisObject:nil];
             }
         }
+        [connectedWatch closeSession:^{
+        }];
     }];
     }
 }
