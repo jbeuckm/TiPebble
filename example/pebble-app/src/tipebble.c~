@@ -29,27 +29,6 @@ enum TupleKey {
 };
 
 
-char *translate_error(AppMessageResult result) {
-    switch (result) {
-        case APP_MSG_OK: return "APP_MSG_OK";
-        case APP_MSG_SEND_TIMEOUT: return "APP_MSG_SEND_TIMEOUT";
-        case APP_MSG_SEND_REJECTED: return "APP_MSG_SEND_REJECTED";
-        case APP_MSG_NOT_CONNECTED: return "APP_MSG_NOT_CONNECTED";
-        case APP_MSG_APP_NOT_RUNNING: return "APP_MSG_APP_NOT_RUNNING";
-        case APP_MSG_INVALID_ARGS: return "APP_MSG_INVALID_ARGS";
-        case APP_MSG_BUSY: return "APP_MSG_BUSY";
-        case APP_MSG_BUFFER_OVERFLOW: return "APP_MSG_BUFFER_OVERFLOW";
-        case APP_MSG_ALREADY_RELEASED: return "APP_MSG_ALREADY_RELEASED";
-        case APP_MSG_CALLBACK_ALREADY_REGISTERED: return "APP_MSG_CALLBACK_ALREADY_REGISTERED";
-        case APP_MSG_CALLBACK_NOT_REGISTERED: return "APP_MSG_CALLBACK_NOT_REGISTERED";
-        case APP_MSG_OUT_OF_MEMORY: return "APP_MSG_OUT_OF_MEMORY";
-        case APP_MSG_CLOSED: return "APP_MSG_CLOSED";
-        case APP_MSG_INTERNAL_ERROR: return "APP_MSG_INTERNAL_ERROR";
-        default: return "UNKNOWN ERROR";
-    }
-}
-
-
 void get_image (Tuple *bitmap_tuple) {
     
     if (!bitmap_tuple)  return;
@@ -67,19 +46,21 @@ void get_image (Tuple *bitmap_tuple) {
         image_height = bitmap_tuple->value->data[2];
         image_bytes_total = image_transmit_width * image_height / 8;
         
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
+//        APP_LOG(APP_LOG_LEVEL_DEBUG, "will load image_bytes_total = %d", image_bytes_total);
         image_bytes_loaded = 0;
     }
     memcpy(bitmap_data + offset, bitmap_tuple->value->data + 3, bitmap_tuple->length - 3);
     
     image_bytes_loaded += bitmap_tuple->length - 3;
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "image_bytes_loaded = %d", image_bytes_loaded);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "image_bytes_loaded = %d", image_bytes_loaded);
     
     if (image_bytes_loaded >= image_bytes_total) {
         
-        APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
+//        APP_LOG(APP_LOG_LEVEL_DEBUG, " -- get_image Done! %s", "");
         
-        display_bitmap = (GBitmap) {
+        //  display_bitmap = gbitmap_create_with_data(bitmap_data);
+        
+        display_bitmap = (GBitmap) {  // Katharine's code set this explicitly.  The method above should handle it.
             .addr = bitmap_data,
             .bounds = GRect(0, 0, image_width, image_height),
             .info_flags = 1,
@@ -117,41 +98,16 @@ static void in_dropped_handler(AppMessageResult reason, void *context) {
 
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Failed to Send!");
-    vibes_double_pulse();
 }
 
-
-void out_sent_handler(DictionaryIterator *sent, void *context) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Sent!");
-    vibes_long_pulse();
-}
-
-
-void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
-
-    DictionaryIterator *iter;
-    app_message_outbox_begin(&iter);
-    
-    Tuplet value = TupletInteger(1, 42);
-    dict_write_tuplet(iter, &value);
-    
-    app_message_outbox_send();
- 
-}
 
 static void app_message_init(void) {
     // Register message handlers
     app_message_register_inbox_received(in_received_handler);
     app_message_register_inbox_dropped(in_dropped_handler);
-    
-    app_message_register_outbox_sent(out_sent_handler);
     app_message_register_outbox_failed(out_failed_handler);
-
     // Init buffers
-    app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
-    //    app_message_open(105, 105);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message sizes %d %d", (int)app_message_inbox_size_maximum(), (int)app_message_outbox_size_maximum());
-    
+    app_message_open(105, 105);
 }
 
 
@@ -170,10 +126,6 @@ static void window_load(Window *window) {
     text_layer_set_text(string_layer, message_string);
     
     layer_add_child(window_layer, text_layer_get_layer(string_layer));
-}
-void config_provider(Window *window) {
-
-    window_single_click_subscribe(BUTTON_ID_DOWN, down_single_click_handler);
 }
 
 
@@ -195,8 +147,6 @@ static void init() {
         .load = window_load,
         .unload = window_unload
     });
-    
-    window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
     
     app_message_init();
     

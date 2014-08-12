@@ -37,11 +37,7 @@
     [[PBPebbleCentral defaultCentral] setDelegate:self];
     
     connectedWatch = [[PBPebbleCentral defaultCentral] lastConnectedWatch];
-    [connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
-        NSLog(@"Received message: %@", update);
-        [self fireEvent:@"update" withObject:update];
-        return YES;
-    }];
+    [self listenToConnectedWatch];
     
     pebbleDataQueue = [[KBPebbleMessageQueue alloc] init];
     pebbleDataQueue.watch = connectedWatch;
@@ -50,11 +46,22 @@
 }
 
 
+- (void)listenToConnectedWatch
+{
+    if (connectedWatch) {
+        [connectedWatch appMessagesAddReceiveUpdateHandler:^BOOL(PBWatch *watch, NSDictionary *update) {
+            NSLog(@"[INFO] Received message: %@", update);
+            [self fireEvent:@"update" withObject:update];
+            return YES;
+        }];
+    }
+}
 
 
 - (void)pebbleCentral:(PBPebbleCentral*)central watchDidConnect:(PBWatch*)watch isNew:(BOOL)isNew {
     NSLog(@"Pebble connected: %@", [watch name]);
     connectedWatch = watch;
+    [self listenToConnectedWatch];
     
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:[watch name],@"name",nil];
     [self fireEvent:@"watchConnected" withObject:event];

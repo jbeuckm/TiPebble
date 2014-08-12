@@ -11,26 +11,6 @@
   "appKeys": { "iconKey": 0, "temperatureKey": 1, "bitmapKey":2},
   "resources": {
     "media": [
-      {
-        "type": "png",
-        "name": "IMAGE_SUN",
-        "file": "img/sun.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_RAIN",
-        "file": "img/rain.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_CLOUD",
-        "file": "img/cloud.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_SNOW",
-        "file": "img/snow.png"
-      }
     ]
   }
 }
